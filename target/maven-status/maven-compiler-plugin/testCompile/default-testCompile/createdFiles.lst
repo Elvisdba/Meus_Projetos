@@ -1,0 +1,11 @@
+br/com/jonas/drogaria/util/HibernateUtilTeste.class
+br/com/jonas/drogaria/dao/VendaDAOTest.class
+br/com/jonas/drogaria/dao/PessoaDAOTest.class
+br/com/jonas/drogaria/dao/ProdutoDAOTest.class
+br/com/jonas/drogaria/dao/ClienteDAOTest.class
+br/com/jonas/drogaria/dao/FuncionarioDAOTest.class
+br/com/jonas/drogaria/dao/FabricanteDAOTest.class
+br/com/jonas/drogaria/dao/ItemVendaDAOTest.class
+br/com/jonas/drogaria/dao/CidadeDAOTest.class
+br/com/jonas/drogaria/dao/EstadoDAOTest.class
+br/com/jonas/drogaria/dao/UsuarioDAOTest.class

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Produtos</title>
+</h:head>
+<h:body>
+	<!-- Listagem -->
+	<h:form>
+		<p:panel header="Produtos - Listagem">
+			<p:dataTable emptyMessage="Nao ha registros cadastrados"
+				paginator="true">
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+				</f:facet>
+
+				<p:column headerText="Descricao">
+				</p:column>
+
+				<p:column headerText="Quantidade">
+				</p:column>
+
+				<p:column headerText="Preco">
+				</p:column>
+
+				<p:column headerText="Fabricante">
+				</p:column>
+
+				<p:column headerText="Opcao">
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<!-- Ao Clicar no botao novo -->
+	<p:dialog header="Porduto - Cadastro" widgetVar="dialogo" modal="true"
+		resizable="false">
+		<h:form>
+			<!-- Campos de texto -->
+			<h:panelGrid columns="2">
+			
+				<p:outputLabel value="Fabricante: " />
+				<p:selectOneMenu filter="true">
+					<f:selectItem itemValue="" itemLabel="Selecione um produto"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Descricao: "/>
+				<p:inputText maxlength="50" size="30"/>
+				
+				<p:outputLabel value="Quantidade: "/>
+				<p:inputText maxlength="5" size="10"/>
+				
+				<p:outputLabel value="Preco:"/>
+				<p:inputText maxlength="7" size="10"/>
+
+			</h:panelGrid>
+
+			<!-- Botoes -->
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

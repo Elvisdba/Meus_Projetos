@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Usuarios</title>
+</h:head>
+<h:body>
+	<h:form>
+		<!-- Listagem de Usuarios -->
+		<p:panel header="Usuarios - Listagem">
+			<p:dataTable emptyMessage="Nao ha registros cadastrados"
+				paginator="true">
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+				</f:facet>
+
+				<p:column headerText="Nome">
+				</p:column>
+
+				<p:column headerText="CPF">
+				</p:column>
+
+				<p:column headerText="Tipo">
+				</p:column>
+
+				<p:column headerText="Status">
+				</p:column>
+
+				<p:column headerText="Senha">
+				</p:column>
+
+				<p:column headerText="Opcao">
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+
+
+	<!-- Ao clicar no botao novo -->
+	<p:dialog header="Usuarios - Cadastro" widgetVar="dialogo"
+		resizable="false" modal="true">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Pessoa: " />
+				<p:selectOneMenu filter="true">
+					<f:selectItem itemValue="" itemLabel="Selecione o nome" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Senha: " />
+				<p:password maxlength="8" size="10" />
+				
+				<p:outputLabel value="Ativo"/>
+				<p:selectBooleanCheckbox/>
+
+				<p:outputLabel value="Tipo: " />
+				<p:selectOneRadio>
+					<f:selectItem itemValue="A" itemLabel="Administrador" />
+					<f:selectItem itemValue="G" itemLabel="Gerente" />
+					<f:selectItem itemValue="B" itemLabel="Balconista" />
+				</p:selectOneRadio>
+
+
+			</h:panelGrid>
+
+
+			<!-- Botoes -->
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+			</h:panelGrid>
+
+		</h:form>
+
+
+	</p:dialog>
+
+
+
+
+</h:body>
+</html>

@@ -12,6 +12,7 @@
 <h:body>
 
 	<p:growl id="mensagem" />
+
 	<!-- Listagem de Fabricantes -->
 	<h:form id="formListagem">
 		<p:panel header="Fabricante - Listagem">
@@ -42,9 +43,10 @@
 						update=":mensagem :formListagem:tabela">
 						<p:confirm header="Confirmaçao" message="Deseja excluir?"
 							icon="ui-icon-alert" />
-							
+
+						<!-- pega fabricante selecionado e envia para o bean -->
 						<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
-						
+
 					</p:commandButton>
 
 					<!-- Botao editar -->
@@ -52,8 +54,9 @@
 						actionListener="#{fabricanteBean.editar}"
 						update=":formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
-						
-						<f:attribute name="fabricanteSelecionado" value="#{fabricante}"/>
+
+						<!-- pega fabricante selecionado e envia para o bean -->
+						<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
 
 					</p:commandButton>
 

@@ -44,11 +44,12 @@
 					<p:commandButton icon="ui-icon-trash"
 						actionListener="#{estadoBean.excluir}"
 						update=":mensagem :formListagem:tabela">
+						
 						<p:confirm header="Confirmacao" message="deseja excluir?"
 							icon="ui-icon-alert" />
 
+						<!-- pega estado selecionado e envia para o bean -->
 						<f:attribute name="estadoSelecionado" value="#{estado}" />
-						
 					</p:commandButton>
 
 					<!-- botao editar -->
@@ -57,8 +58,8 @@
 						update=":formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
 
+						<!-- pega estado selecionado e envia para o bean -->
 						<f:attribute name="estadoSelecionado" value="#{estado}" />
-						
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -69,6 +70,7 @@
 			<p:confirmDialog global="true" showEffect="fade">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					
 				<p:commandButton value="Nao" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>

@@ -23,4 +23,9 @@ public class GenericDomain implements Serializable {
 	public void setCodigo(long codigo) {
 		this.codigo = codigo;
 	}
+	
+	 @Override
+	 public String toString() {
+	     return String.format("%s[codigo=%d]", getClass().getSimpleName(), getCodigo());
+	 }
 }

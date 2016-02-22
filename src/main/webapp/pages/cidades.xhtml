@@ -20,7 +20,9 @@
 				rows="10">
 
 				<f:facet name="footer">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						actionListener="#{cidadeBean.novo()}"
+						update=":mensagem :formCadastro:panelGridCadastro" />
 				</f:facet>
 
 				<p:column headerText="Nome: " filterBy="#{cidade.nome}"
@@ -54,9 +56,9 @@
 						actionListener="#{cidadeBean.editar}"
 						update=":formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
-						
+
 						<!-- pega cidade selecionada e envia para o bean -->
-						<f:attribute name="cidadeSelecionada" value="#{cidade}"/>
+						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
 					</p:commandButton>
 
 				</p:column>
@@ -84,19 +86,28 @@
 		<h:form id="formCadastro">
 			<h:panelGrid id="panelGridCadastro" columns="2">
 				<p:outputLabel value="Nome: " />
-				<p:inputText maxlength="50" size="30" />
+				<p:inputText maxlength="50" size="30"
+					value="#{cidadeBean.cidade.nome}" />
 
-				
+
 				<p:outputLabel value="Estado: " />
-				<p:selectOneMenu filter="true">
-				
-					<f:selectItem itemValue="" itemLabel="Selecione um estado" />
+				<p:selectOneMenu filter="true" value="#{cidadeBean.cidade.estado}"
+					converter="omnifaces.SelectItemsConverter">
+
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um estado" />
+
+					<f:selectItems value="#{cidadeBean.estados}" var="estado"
+						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
+
 				</p:selectOneMenu>
 			</h:panelGrid>
 
 			<!-- Botoes -->
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" />
+				<p:commandButton value="Salvar"
+					actionListener="#{cidadeBean.salvar()}"
+					update=":mensagem :formCadastro:panelGridCadastro :formListagem:tabela" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 

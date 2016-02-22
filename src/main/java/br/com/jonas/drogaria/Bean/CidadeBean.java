@@ -11,13 +11,25 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.jonas.drogaria.dao.CidadeDAO;
+import br.com.jonas.drogaria.dao.EstadoDAO;
 import br.com.jonas.drogaria.domain.Cidade;
+import br.com.jonas.drogaria.domain.Estado;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class CidadeBean implements Serializable {
 	private Cidade cidade;
+	private List<Cidade> cidades;
+	private List<Estado> estados;
+
+	public List<Estado> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<Estado> estados) {
+		this.estados = estados;
+	}
 
 	public Cidade getCidade() {
 		return cidade;
@@ -26,8 +38,6 @@ public class CidadeBean implements Serializable {
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-
-	private List<Cidade> cidades;
 
 	public List<Cidade> getCidades() {
 		return cidades;
@@ -39,6 +49,13 @@ public class CidadeBean implements Serializable {
 
 	public void novo() {
 		cidade = new Cidade();
+		try {
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estados = estadoDAO.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar os Estados");
+			e.printStackTrace();
+		}
 	}
 
 	// listar
@@ -62,6 +79,10 @@ public class CidadeBean implements Serializable {
 
 			novo();
 			cidades = cidadeDAO.listar();
+			
+			//por precalcao, atualizar a listagem de estado
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estados = estadoDAO.listar();
 
 			Messages.addGlobalInfo("Cidade Salvo com sucesso");
 		} catch (RuntimeException e) {

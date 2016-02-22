@@ -44,7 +44,7 @@
 						actionListener="#{cidadeBean.excluir}"
 						update=":mensagem :formListagem:tabela">
 
-						<p:confirm header="Confirmacao" message="Deseja excluir"
+						<p:confirm header="Confirmacao" message="Deseja excluir?"
 							icon="ui-icon-alert" />
 
 						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
@@ -54,7 +54,7 @@
 					<!-- botao editar -->
 					<p:commandButton icon="ui-icon-pencil"
 						actionListener="#{cidadeBean.editar}"
-						update=":formCadastro:panelGridCadastro"
+						update=":mensagem :formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
 
 						<!-- pega cidade selecionada e envia para o bean -->

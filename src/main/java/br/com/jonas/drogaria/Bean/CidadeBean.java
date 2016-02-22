@@ -101,7 +101,7 @@ public class CidadeBean implements Serializable {
 
 			cidades = cidadeDAO.listar();
 
-			Messages.addGlobalInfo("Cidade excluida com sucesso");
+			Messages.addGlobalInfo("Cidade removida com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar excluir cidade");
 			e.printStackTrace();
@@ -110,6 +110,14 @@ public class CidadeBean implements Serializable {
 
 	// editar
 	public void editar(ActionEvent evento) {
-		cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
+		try {
+			cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
+			
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estados = estadoDAO.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar os Estados");
+			e.printStackTrace();
+		}
 	}
 }

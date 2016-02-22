@@ -10,20 +10,29 @@
 	<title>Pessoas</title>
 </h:head>
 <h:body>
-	<h:form>
-		<!-- Listagem de Pessoa -->
+
+	<p:growl id="mensagem" />
+	<!-- listagem de Pessoas -->
+
+	<h:form id="formListagem">
 		<p:panel header="Pessoas - Listagem">
-			<p:dataTable emptyMessage="Nao ha registros cadastrados"
-				paginator="true">
+			<p:dataTable id="tabela" emptyMessage="Nao ha registros cadastrados"
+				paginator="true" value="#{pessoaBean.pessoas}" var="pessoa"
+				rows="10">
 
 				<f:facet name="footer">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						actionListener="#{pessoaBean.novo()}" update="" />
 				</f:facet>
 
-				<p:column headerText="Nome">
+				<p:column headerText="Nome" filterBy="#{pessoa.nome}"
+					sortBy="#{pessoa.nome}">
+					<h:outputText value="#{pessoa.nome}" />
 				</p:column>
 
-				<p:column headerText="CPF">
+				<p:column headerText="CPF" filterBy="#{pessoa.cpf}"
+					sortBy="#{pessoa.cpf}">
+					<h:outputText value="#{pessoa.cpf}"/>
 				</p:column>
 
 				<p:column headerText="RG">
@@ -67,38 +76,38 @@
 
 		<h:form>
 			<h:panelGrid columns="4">
-				
-				<p:outputLabel value="Nome: "/>
-				<p:inputText maxlength="50" size="40"/>
-				
-				<p:outputLabel value="Email: "/>
-				<p:inputText maxlength="100" size="30"/>
-				
-				<p:outputLabel value="Rua: "/>
-				<p:inputText maxlength="100" size="30"/>
-				
-				<p:outputLabel value="Bairro: "/>
-				<p:inputText maxlength="30" size="30"/>
-				
-				<p:outputLabel value="Numero: "/>
-				<p:inputText maxlength="8" size="15"/>
-				
-				<p:outputLabel value="CEP: "/>
-				<p:inputText maxlength="10" size="15"/>
-				
-				<p:outputLabel value="Complemento: "/>
-				<p:inputText maxlength="10" size="15"/>
-				
-				<p:outputLabel value="RG: "/>
-				<p:inputText maxlength="12" size="15"/>
-				
-				<p:outputLabel value="Telefone: "/>
-				<p:inputText maxlength="13" size="15"/>
-				
-				<p:outputLabel value="Celular: "/>
-				<p:inputText maxlength="14" size="15"/>
-				
-				
+
+				<p:outputLabel value="Nome: " />
+				<p:inputText maxlength="50" size="40" />
+
+				<p:outputLabel value="Email: " />
+				<p:inputText maxlength="100" size="30" />
+
+				<p:outputLabel value="Rua: " />
+				<p:inputText maxlength="100" size="30" />
+
+				<p:outputLabel value="Bairro: " />
+				<p:inputText maxlength="30" size="30" />
+
+				<p:outputLabel value="Numero: " />
+				<p:inputText maxlength="8" size="15" />
+
+				<p:outputLabel value="CEP: " />
+				<p:inputText maxlength="10" size="15" />
+
+				<p:outputLabel value="Complemento: " />
+				<p:inputText maxlength="10" size="15" />
+
+				<p:outputLabel value="RG: " />
+				<p:inputText maxlength="12" size="15" />
+
+				<p:outputLabel value="Telefone: " />
+				<p:inputText maxlength="13" size="15" />
+
+				<p:outputLabel value="Celular: " />
+				<p:inputText maxlength="14" size="15" />
+
+
 				<p:outputLabel value="Cidade: " />
 				<p:selectOneMenu filter="true">
 					<f:selectItem itemValue="" itemLabel="Selecione uma Cidade: " />

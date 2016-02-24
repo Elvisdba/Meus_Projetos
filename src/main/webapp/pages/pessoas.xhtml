@@ -101,12 +101,13 @@
 						<f:attribute name="pessoaSelecionada" value="#{pessoa}" />
 					</p:commandButton>
 
+					<!-- botao editar -->
 					<p:commandButton icon="ui-icon-pencil"
 						actionListener="#{pessoaBean.editar}"
 						update=":mensagem :formListagem:tabela :formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show()">
-						
-						<f:attribute name="pessoaSelecionada" value="#{pessoa}"/>
+
+						<f:attribute name="pessoaSelecionada" value="#{pessoa}" />
 					</p:commandButton>
 
 

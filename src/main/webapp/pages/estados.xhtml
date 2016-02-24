@@ -44,7 +44,7 @@
 					<p:commandButton icon="ui-icon-trash"
 						actionListener="#{estadoBean.excluir}"
 						update=":mensagem :formListagem:tabela">
-						
+
 						<p:confirm header="Confirmacao" message="deseja excluir?"
 							icon="ui-icon-alert" />
 
@@ -70,7 +70,7 @@
 			<p:confirmDialog global="true" showEffect="fade">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					
+
 				<p:commandButton value="Nao" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
@@ -87,12 +87,15 @@
 		<!-- Campo de texto -->
 		<h:form id="formCadastro">
 			<h:panelGrid columns="2" id="panelGridCadastro">
-				<p:outputLabel value="Nome do Estado: " />
-				<p:inputText maxlength="50" size="30"
+
+				<p:outputLabel for="nomeID" value="Nome do Estado: " />
+				<p:inputText id="nomeID" maxlength="50" size="30" required="true"
+					requiredMessage="O campo 'Nome' do Estado é obrigatorio"
 					value="#{estadoBean.estado.nome}" />
 
-				<p:outputLabel value="Sigla do Estado: " />
-				<p:inputText maxlength="2" size="10"
+				<p:outputLabel for="siglaID" value="Sigla do Estado: " />
+				<p:inputText id="siglaID" maxlength="2" size="10" required="true"
+					requiredMessage="O campo 'sigla' é obrigatorio"
 					value="#{estadoBean.estado.sigla}" />
 			</h:panelGrid>
 

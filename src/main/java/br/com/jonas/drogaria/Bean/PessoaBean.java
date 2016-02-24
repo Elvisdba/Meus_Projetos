@@ -90,21 +90,40 @@ public class PessoaBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	//salvar
+
+	// salvar
 	public void salvar() {
-		
+
 		try {
 			PessoaDAO pessoaDAO = new PessoaDAO();
 			pessoaDAO.merge(pessoa);
-			
+
 			novo();
+
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidades = cidadeDAO.listar();
+
 			pessoas = pessoaDAO.listar();
 			Messages.addGlobalInfo("Salvo com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Nao foi possivel salvar");
 			e.printStackTrace();
 		}
+	}
+
+	// editar
+	public void editar(ActionEvent evento) {
+		try {
+			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
+
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidades = cidadeDAO.listar();
+
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar os Cidades");
+			e.printStackTrace();
+		}
+
 	}
 
 }

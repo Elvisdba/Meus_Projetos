@@ -85,14 +85,16 @@
 
 		<h:form id="formCadastro">
 			<h:panelGrid id="panelGridCadastro" columns="2">
-				<p:outputLabel value="Nome: " />
-				<p:inputText maxlength="50" size="30"
+				<p:outputLabel for="nomeID" value="Nome: " />
+				<p:inputText id="nomeID" maxlength="50" size="30" required="true"
+					requiredMessage="O campo 'Nome' é Obrigatorio"
 					value="#{cidadeBean.cidade.nome}" />
 
 
-				<p:outputLabel value="Estado: " />
-				<p:selectOneMenu filter="true" value="#{cidadeBean.cidade.estado}"
-					converter="omnifaces.SelectItemsConverter">
+				<p:outputLabel for="estadoID" value="Estado: " />
+				<p:selectOneMenu id="estadoID" filter="true" value="#{cidadeBean.cidade.estado}"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="O campo 'Estado' é Obrigatorio">
 
 					<f:selectItem noSelectionOption="true"
 						itemLabel="Selecione um estado" />

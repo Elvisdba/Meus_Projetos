@@ -82,8 +82,10 @@
 		<!-- Campo de texto -->
 		<h:form id="formCadastro">
 			<h:panelGrid columns="2" id="panelGridCadastro">
-				<p:outputLabel value="Descricao do Fabricante: " />
-				<p:inputText maxlength="50" size="30"
+
+				<p:outputLabel for="descricaoID" value="Descricao do Fabricante: " />
+				<p:inputText id="descricaoID" maxlength="50" size="30"
+					required="true" requiredMessage="O campo 'Descricao do Fabricante' é obrigatorio"
 					value="#{fabricanteBean.fabricante.descricao}" />
 			</h:panelGrid>
 

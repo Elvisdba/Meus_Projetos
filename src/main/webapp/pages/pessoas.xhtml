@@ -32,40 +32,84 @@
 
 				<p:column headerText="CPF" filterBy="#{pessoa.cpf}"
 					sortBy="#{pessoa.cpf}">
-					<h:outputText value="#{pessoa.cpf}"/>
+					<h:outputText value="#{pessoa.cpf}" />
 				</p:column>
 
-				<p:column headerText="RG">
+				<p:column headerText="RG" filterBy="#{pessoa.rg}"
+					sortBy="#{pessoa.rg}">
+					<h:outputText value="#{pessoa.rg}" />
 				</p:column>
 
-				<p:column headerText="Rua">
+				<p:column headerText="Rua" filterBy="#{pessoa.rua}"
+					sortBy="#{pessoa.rua}">
+					<h:outputText value="#{pessoa.rua}" />
 				</p:column>
 
-				<p:column headerText="Numero">
+				<p:column headerText="Numero" filterBy="#{pessoa.numero}"
+					sortBy="#{pessoa.numero}">
+					<h:outputText value="#{pessoa.numero}" />
 				</p:column>
 
-				<p:column headerText="Bairro">
+				<p:column headerText="Bairro" filterBy="#{pessoa.bairro}"
+					sortBy="#{pessoa.bairro}">
+					<h:outputText value="#{pessoa.bairro}" />
 				</p:column>
 
-				<p:column headerText="CEP">
+				<p:column headerText="CEP" filterBy="#{pessoa.cep}"
+					sortBy="#{pessoa.cep}">
+					<h:outputText value="#{pessoa.cep}" />
 				</p:column>
 
-				<p:column headerText="Complemento">
+				<p:column headerText="Complemento" filterBy="#{pessoa.complemento}"
+					sortBy="#{pessoa.complemento}">
+					<h:outputText value="#{pessoa.complemento}" />
 				</p:column>
 
-				<p:column headerText="Telefone">
+				<p:column headerText="Telefone" filterBy="#{pessoa.telefone}"
+					sortBy="#{pessoa.telefone}">
+					<h:outputText value="#{pessoa.telefone}" />
 				</p:column>
 
-				<p:column headerText="Celular">
+				<p:column headerText="Celular" filterBy="#{pessoa.celular}"
+					sortBy="#{pessoa.celular}">
+					<h:outputText value="#{pessoa.celular}" />
 				</p:column>
 
-				<p:column headerText="Email">
+				<p:column headerText="Email" filterBy="#{pessoa.email}"
+					sortBy="#{pessoa.email}">
+					<h:outputText value="#{pessoa.email}" />
 				</p:column>
 
-				<p:column headerText="Cidade">
+				<p:column headerText="Cidade" filterBy="#{pessoa.cidada}"
+					sortBy="#{pessoa.cidada}">
+					<h:outputText value="#{pessoa.cidada.nome}" />
+					<h:outputText value=" - " />
+					<h:outputText value="#{pessoa.cidada.estado.sigla}" />
 				</p:column>
 
 				<p:column headerText="Opcoes">
+
+					<!-- botao excluir -->
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{pessoaBean.excluir()}"
+						update=":mensagem :formListagem:tabela">
+
+						<p:confirm header="Confirmacao" message="Deseja excluir?"
+							icon="ui-icon-alert" />
+
+						<f:attribute name="pessoaSelecionada" value="#{pessoa}" />
+					</p:commandButton>
+
+
+					<!-- Janela de confimacao para excluir -->
+					<p:confirmDialog global="true" showEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+						<p:commandButton value="Nao" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-check" />
+					</p:confirmDialog>
+
 				</p:column>
 			</p:dataTable>
 		</p:panel>

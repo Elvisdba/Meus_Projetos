@@ -10,6 +10,7 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
+import br.com.jonas.drogaria.dao.CidadeDAO;
 import br.com.jonas.drogaria.dao.PessoaDAO;
 import br.com.jonas.drogaria.domain.Cidade;
 import br.com.jonas.drogaria.domain.Pessoa;
@@ -50,6 +51,14 @@ public class PessoaBean implements Serializable {
 	public void novo() {
 		pessoa = new Pessoa();
 
+		try {
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidades = cidadeDAO.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar cidades");
+			e.printStackTrace();
+		}
+
 	}
 
 	// listar
@@ -80,7 +89,22 @@ public class PessoaBean implements Serializable {
 			Messages.addFlashGlobalError("Nao foi possivel remover a Pessoa");
 			e.printStackTrace();
 		}
-
+	}
+	
+	//salvar
+	public void salvar() {
+		
+		try {
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoaDAO.merge(pessoa);
+			
+			novo();
+			pessoas = pessoaDAO.listar();
+			Messages.addGlobalInfo("Salvo com sucesso");
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Nao foi possivel salvar");
+			e.printStackTrace();
+		}
 	}
 
 }

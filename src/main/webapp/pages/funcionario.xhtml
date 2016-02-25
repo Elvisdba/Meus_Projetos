@@ -52,10 +52,10 @@
 					sortBy="#{funcionario.dataAdmissao}">
 					<h:outputText value="#{funcionario.dataAdmissao}" />
 				</p:column>
-				
-				
-				
-				
+
+
+
+
 
 				<p:column headerText="Opcoes">
 					<!-- botao excluir -->
@@ -129,7 +129,8 @@
 				<p:outputLabel for="admissaoID" value="Data de Admisao: " />
 				<p:calendar id="admissaoID" required="true"
 					requiredMessage="O campo 'Data de Admisaao' é obrigatorio"
-					value="#{funcionarioBean.funcionario.dataAdmissao}"></p:calendar>
+					value="#{funcionarioBean.funcionario.dataAdmissao}"
+					mindate="#{now}" effect="fold"></p:calendar>
 
 				<p:outputLabel for="carteiraID" value="Carteira de Trabalho" />
 				<p:inputText id="carteiraID" maxlength="15" size="20"

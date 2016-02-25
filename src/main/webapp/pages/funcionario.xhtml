@@ -52,11 +52,16 @@
 					sortBy="#{funcionario.dataAdmissao}">
 					<h:outputText value="#{funcionario.dataAdmissao}" />
 				</p:column>
+				
+				
+				
+				
 
 				<p:column headerText="Opcoes">
-
 					<!-- botao excluir -->
-					<p:commandButton icon="ui-icon-trash">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{funcionarioBean.excluir}"
+						update=":mensagem :formListagem:tabela">
 
 						<p:confirm header="Confirmacao" message="Deseja excluir?"
 							icon="ui-icon-alert" />
@@ -65,10 +70,14 @@
 					</p:commandButton>
 
 
+
+
+
 					<!-- botao editar -->
-					<p:commandButton icon="ui-icon-pencil">
-
-
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{funcionarioBean.editar}"
+						update=":mensagem :formCadastro:panelGridCadastro"
+						oncomplete="PF('dialogo').show();">
 
 						<!-- reset do ajax -->
 						<f:actionListener
@@ -76,10 +85,7 @@
 
 						<f:attribute name="funcionarioSelecionado" value="#{funcionario}" />
 					</p:commandButton>
-
-
 				</p:column>
-
 			</p:dataTable>
 
 

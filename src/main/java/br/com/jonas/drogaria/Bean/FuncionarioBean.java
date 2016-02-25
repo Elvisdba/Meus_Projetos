@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -48,7 +49,7 @@ public class FuncionarioBean implements Serializable {
 		this.pessoas = pessoas;
 	}
 
-	//novo
+	// novo
 	public void novo() {
 		funcionario = new Funcionario();
 
@@ -61,12 +62,12 @@ public class FuncionarioBean implements Serializable {
 		}
 	}
 
-	//salvar
+	// salvar
 	public void salvar() {
 		try {
 			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 			funcionarioDAO.merge(funcionario);
-			
+
 			novo();
 			funcionarios = funcionarioDAO.listar();
 
@@ -85,11 +86,41 @@ public class FuncionarioBean implements Serializable {
 	public void listar() {
 		try {
 			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-		 	funcionarios = funcionarioDAO.listar();
+			funcionarios = funcionarioDAO.listar();
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Funcionarios");
 			e.printStackTrace();
 		}
+	}
+
+	// excluir
+	public void excluir(ActionEvent evento) {
+		try {
+			funcionario = (Funcionario) evento.getComponent().getAttributes().get("funcionarioSelecionado");
+			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+			funcionarioDAO.excluir(funcionario);
+			
+			funcionarios = funcionarioDAO.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalInfo("Funcionario excluido com sucesso");
+			e.printStackTrace();
+		}
+	}
+	
+	//editar
+	public void editar(ActionEvent evento) {
+		
+		try {
+			funcionario = (Funcionario) evento.getComponent().getAttributes().get("funcionarioSelecionado");
+			
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoas = pessoaDAO.listar();
+			
+		} catch (RuntimeException e) {
+			Messages.addFlashGlobalError("Erro ao tentar editar");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

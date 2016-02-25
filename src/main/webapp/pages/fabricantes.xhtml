@@ -23,7 +23,13 @@
 				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{fabricanteBean.novo}"
-						update=":formCadastro:panelGridCadastro" />
+						update=":formCadastro:panelGridCadastro">
+
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+
+					</p:commandButton>
 				</f:facet>
 
 				<p:column headerText="Descricao do Fabricante: "
@@ -55,6 +61,10 @@
 						update=":formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
 
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+
 						<!-- pega fabricante selecionado e envia para o bean -->
 						<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
 
@@ -85,7 +95,8 @@
 
 				<p:outputLabel for="descricaoID" value="Descricao do Fabricante: " />
 				<p:inputText id="descricaoID" maxlength="50" size="30"
-					required="true" requiredMessage="O campo 'Descricao do Fabricante' é obrigatorio"
+					required="true"
+					requiredMessage="O campo 'Descricao do Fabricante' é obrigatorio"
 					value="#{fabricanteBean.fabricante.descricao}" />
 			</h:panelGrid>
 

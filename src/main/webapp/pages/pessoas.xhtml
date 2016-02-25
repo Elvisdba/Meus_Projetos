@@ -23,7 +23,12 @@
 				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{pessoaBean.novo()}"
-						update=":mensagem :formCadastro:panelGridCadastro" />
+						update=":mensagem :formCadastro:panelGridCadastro">
+
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
 
 				<p:column headerText="Nome" filterBy="#{pessoa.nome}"
@@ -106,6 +111,10 @@
 						actionListener="#{pessoaBean.editar}"
 						update=":mensagem :formListagem:tabela :formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show()">
+
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
 						<f:attribute name="pessoaSelecionada" value="#{pessoa}" />
 					</p:commandButton>

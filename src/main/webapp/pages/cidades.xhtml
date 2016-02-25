@@ -22,7 +22,12 @@
 				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{cidadeBean.novo}"
-						update=":mensagem :formCadastro:panelGridCadastro" />
+						update=":mensagem :formCadastro:panelGridCadastro">
+
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
 
 				<p:column headerText="Nome: " filterBy="#{cidade.nome}"
@@ -56,6 +61,10 @@
 						actionListener="#{cidadeBean.editar}"
 						update=":mensagem :formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
+						
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
 						<!-- pega cidade selecionada e envia para o bean -->
 						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
@@ -92,7 +101,8 @@
 
 
 				<p:outputLabel for="estadoID" value="Estado: " />
-				<p:selectOneMenu id="estadoID" filter="true" value="#{cidadeBean.cidade.estado}"
+				<p:selectOneMenu id="estadoID" filter="true"
+					value="#{cidadeBean.cidade.estado}"
 					converter="omnifaces.SelectItemsConverter" required="true"
 					requiredMessage="O campo 'Estado' é Obrigatorio">
 

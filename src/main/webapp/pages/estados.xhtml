@@ -21,7 +21,12 @@
 				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{estadoBean.novo}"
-						update=":formCadastro:panelGridCadastro" />
+						update=":formCadastro:panelGridCadastro">
+						
+						<!-- reset do ajax -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
 
 				<p:column headerText="Nome" sortBy="#{estado.nome}"
@@ -57,6 +62,10 @@
 						actionListener="#{estadoBean.editar}"
 						update=":formCadastro:panelGridCadastro"
 						oncomplete="PF('dialogo').show();">
+
+						<!-- reset do ajax  -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
 						<!-- pega estado selecionado e envia para o bean -->
 						<f:attribute name="estadoSelecionado" value="#{estado}" />

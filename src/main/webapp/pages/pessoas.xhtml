@@ -165,7 +165,8 @@
 
 				<p:outputLabel value="Numero: " />
 				<p:inputText maxlength="8" size="15"
-					value="#{pessoaBean.pessoa.numero}" />
+					value="#{pessoaBean.pessoa.numero}" 
+					converterMessage="O valor informado no campo 'Numero' é invalido"/>
 
 				<p:outputLabel for="cepID" value="CEP: " />
 				<p:inputText id="cepID" maxlength="10" size="15" required="true"

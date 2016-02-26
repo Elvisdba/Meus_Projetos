@@ -10,7 +10,6 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
-import br.com.jonas.drogaria.dao.CidadeDAO;
 import br.com.jonas.drogaria.dao.FuncionarioDAO;
 import br.com.jonas.drogaria.dao.PessoaDAO;
 import br.com.jonas.drogaria.domain.Funcionario;

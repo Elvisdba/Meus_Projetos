@@ -24,8 +24,7 @@ public class Produto extends GenericDomain {
 	@Column(nullable = false)
 	private Short quantidade;
 
-	@Column(nullable = false, precision = 6, scale = 2) // 6 digitos e 2 depois
-														// da virgula
+	@Column(nullable = false, precision = 6, scale = 2) // 6 digitos e 2 depois  da virgula
 	private BigDecimal preco;
 
 	@ManyToOne

@@ -160,19 +160,19 @@
 
 
 				<p:outputLabel for="cpfID" value="CPF: " />
-				<p:inputText id="cpfID" maxlength="14" size="15" required="true"
-					requiredMessage="O campo 'CPF' é obrigatorio"
+				<p:inputMask id="cpfID" mask="999.999.999-99" size="14"
+					required="true" requiredMessage="O campo 'CPF' é obrigatorio"
 					value="#{pessoaBean.pessoa.cpf}" />
 
 				<p:outputLabel for="telefoneID" value="Telefone: " />
-				<p:inputText id="telefoneID" maxlength="13" size="15"
-					required="true" requiredMessage="O campo 'Telefone' é obrigatorio"
-					value="#{pessoaBean.pessoa.telefone}" />
+				<p:inputMask id="telefoneID" mask="(99) 9999-9999"
+					value="#{pessoaBean.pessoa.telefone}" required="true"
+					requiredMessage="O campo 'Telefone' é obrigatorio" />
 
 				<p:outputLabel for="celularID" value="Celular: " />
-				<p:inputText id="celularID" maxlength="14" size="15" required="true"
-					requiredMessage="O campo 'Celular' é obrigatorio"
-					value="#{pessoaBean.pessoa.celular}" />
+				<p:inputMask id="celularID" mask="(99) 9999-9999"
+					value="#{pessoaBean.pessoa.celular}" required="true"
+					requiredMessage="O campo 'Celular' é obrigatorio" />
 
 				<p:outputLabel for="ruaID" value="Rua: " />
 				<p:inputText id="ruaID" maxlength="100" size="30" required="true"
@@ -194,9 +194,8 @@
 					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel for="cepID" value="CEP: " />
-				<p:inputText id="cepID" maxlength="10" size="15" required="true"
-					requiredMessage="O campo 'CEP' é obrigatorio"
-					value="#{pessoaBean.pessoa.cep}" />
+				<p:inputMask id="cepID" mask="99999-999"
+					value="#{pessoaBean.pessoa.cep}" required="true" requiredMessage="O campo 'CEP' é obrigatorio" />
 
 
 

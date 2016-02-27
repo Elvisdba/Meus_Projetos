@@ -112,4 +112,25 @@ public class CidadeDAOTest {
 			System.out.println("Alterado com sucesso");
 		}
 	}
+	
+	@Test
+	@Ignore
+	public void buscarPorEstado() {
+		Long estadoCodigo = 2L;
+		
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		List<Cidade> cidades = cidadeDAO.buscarPorEstado(estadoCodigo);
+
+		if (cidades == null) {
+			System.out.println("Nao a cidades cadastradas");
+		} else {
+			for (Cidade cidade : cidades) {
+				System.out.println("Nome da cidade: " + cidade.getNome());
+				System.out.println("Sigle do estado: " + cidade.getEstado().getSigla());
+				System.out.println("");
+			}
+		}
+	}
+	
+	
 }

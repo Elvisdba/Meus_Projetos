@@ -46,30 +46,6 @@
 					<h:outputText value="#{pessoa.rg}" />
 				</p:column>
 
-				<p:column headerText="Rua" filterBy="#{pessoa.rua}"
-					sortBy="#{pessoa.rua}">
-					<h:outputText value="#{pessoa.rua}" />
-				</p:column>
-
-				<p:column headerText="Numero" filterBy="#{pessoa.numero}"
-					sortBy="#{pessoa.numero}">
-					<h:outputText value="#{pessoa.numero}" />
-				</p:column>
-
-				<p:column headerText="Bairro" filterBy="#{pessoa.bairro}"
-					sortBy="#{pessoa.bairro}">
-					<h:outputText value="#{pessoa.bairro}" />
-				</p:column>
-
-				<p:column headerText="CEP" filterBy="#{pessoa.cep}"
-					sortBy="#{pessoa.cep}">
-					<h:outputText value="#{pessoa.cep}" />
-				</p:column>
-
-				<p:column headerText="Complemento" filterBy="#{pessoa.complemento}"
-					sortBy="#{pessoa.complemento}">
-					<h:outputText value="#{pessoa.complemento}" />
-				</p:column>
 
 				<p:column headerText="Telefone" filterBy="#{pessoa.telefone}"
 					sortBy="#{pessoa.telefone}">
@@ -86,8 +62,8 @@
 					<h:outputText value="#{pessoa.email}" />
 				</p:column>
 
-				<p:column headerText="Cidade" filterBy="#{pessoa.cidada}"
-					sortBy="#{pessoa.cidada}">
+				<p:column headerText="Cidade" filterBy="#{pessoa.cidada.nome}"
+					sortBy="#{pessoa.cidada.nome}">
 					<h:outputText value="#{pessoa.cidada.nome}" />
 					<h:outputText value=" - " />
 					<h:outputText value="#{pessoa.cidada.estado.sigla}" />
@@ -165,12 +141,12 @@
 					value="#{pessoaBean.pessoa.cpf}" />
 
 				<p:outputLabel for="telefoneID" value="Telefone: " />
-				<p:inputMask id="telefoneID" mask="(99) 9999-9999"
+				<p:inputMask id="telefoneID" mask="(99)9999-9999"
 					value="#{pessoaBean.pessoa.telefone}" required="true"
 					requiredMessage="O campo 'Telefone' é obrigatorio" />
 
 				<p:outputLabel for="celularID" value="Celular: " />
-				<p:inputMask id="celularID" mask="(99) 9999-9999"
+				<p:inputMask id="celularID" mask="(99)9999-9999"
 					value="#{pessoaBean.pessoa.celular}" required="true"
 					requiredMessage="O campo 'Celular' é obrigatorio" />
 
@@ -195,36 +171,46 @@
 
 				<p:outputLabel for="cepID" value="CEP: " />
 				<p:inputMask id="cepID" mask="99999-999"
-					value="#{pessoaBean.pessoa.cep}" required="true" requiredMessage="O campo 'CEP' é obrigatorio" />
+					value="#{pessoaBean.pessoa.cep}" required="true"
+					requiredMessage="O campo 'CEP' é obrigatorio" />
+
+
+
 
 
 
 				<p:outputLabel for="estadoID" value="Estado: " />
-				<p:selectOneMenu id="estadoID" filter="true" required="true"
-					requiredMessage="O campo 'Estado' é obrigatorio"
-					converter="omnifaces.SelectItemsConverter">
+				<p:selectOneMenu id="estadoID" filter="true"
+					converter="omnifaces.SelectItemsConverter"
+					value="#{pessoaBean.estado}" >
 
 					<f:selectItem noSelectionOption="true"
 						itemLabel="Selecione um Estado: " />
 
 					<f:selectItems value="#{pessoaBean.estados}" var="estado"
 						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
+
+					<p:ajax listener="#{pessoaBean.popular}"
+						update=":formCadastro:cidadeID" />
 				</p:selectOneMenu>
 
 
 				<p:outputLabel for="cidadeID" value="Cidade: " />
 				<p:selectOneMenu id="cidadeID" filter="true" required="true"
 					requiredMessage="O campo 'Cidade' é obrigatorio"
-					converter="omnifaces.SelectItemsConverter">
+					converter="omnifaces.SelectItemsConverter"
+					value="#{pessoaBean.pessoa.cidada}">
 
 					<f:selectItem noSelectionOption="true"
 						itemLabel="Selecione uma Cidade: " />
 
 					<f:selectItems value="#{pessoaBean.cidades}" var="cidade"
-						itemValue="#{cidade}"
-						itemLabel="#{cidade.nome} - #{cidade.estado.sigla}" />
+						itemValue="#{cidade}" itemLabel="#{cidade.nome}" />
 				</p:selectOneMenu>
 			</h:panelGrid>
+
+
+
 
 
 

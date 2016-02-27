@@ -23,10 +23,19 @@ import br.com.jonas.drogaria.domain.Pessoa;
 @ViewScoped
 public class PessoaBean implements Serializable {
 
+	private Estado estado;
 	private Pessoa pessoa;
 	private List<Pessoa> pessoas;
 	private List<Cidade> cidades;
 	private List<Estado> estados;
+	
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 
 	public List<Estado> getEstados() {
 		return estados;
@@ -61,9 +70,12 @@ public class PessoaBean implements Serializable {
 	}
 
 	public void novo() {
-		pessoa = new Pessoa();
+		
 
 		try {
+			pessoa = new Pessoa();
+			estado = new Estado();
+			
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estados = estadoDAO.listar("nome");
 			
@@ -131,10 +143,11 @@ public class PessoaBean implements Serializable {
 		try {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 
-			
-			
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");
+			estados = estadoDAO.listar();
+			
+			CidadeDAO cidadeDAO = new CidadeDAO();
+			cidades = cidadeDAO.listar();
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Cidades");
@@ -142,5 +155,28 @@ public class PessoaBean implements Serializable {
 		}
 
 	}
+	
+	//popular
+	public void popular() {
+		try {
+			if (estado != null) {
+				CidadeDAO cidadeDAO = new CidadeDAO();
+				cidades = cidadeDAO.buscarPorEstado(estado.getCodigo());
+			}else{
+				cidades = new ArrayList<>();
+			}
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("O correu um erro ao tentar filtrar as cidades");
+			e.printStackTrace();
+		}
+	}
 
 }
+
+
+
+
+
+
+
+

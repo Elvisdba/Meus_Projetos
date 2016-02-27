@@ -54,7 +54,7 @@ public class FuncionarioBean implements Serializable {
 
 		try {
 			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao listar Pessoas");
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class FuncionarioBean implements Serializable {
 			funcionarios = funcionarioDAO.listar();
 
 			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 
 			Messages.addGlobalInfo("Funcionario salvo com sucesso");
 		} catch (RuntimeException e) {
@@ -113,7 +113,7 @@ public class FuncionarioBean implements Serializable {
 			funcionario = (Funcionario) evento.getComponent().getAttributes().get("funcionarioSelecionado");
 			
 			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoas = pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 			
 		} catch (RuntimeException e) {
 			Messages.addFlashGlobalError("Erro ao tentar editar");

@@ -42,7 +42,9 @@
 
 				<p:column headerText="Preco" filterBy="#{produto.preco}"
 					sortBy="#{produto.preco}">
-					<h:outputText value="#{produto.preco}" />
+					<h:outputText value="#{produto.preco}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Fabricante"
@@ -80,7 +82,7 @@
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
-						<f:attribute name="produtoSelecionado" value="#{produto}"/>
+						<f:attribute name="produtoSelecionado" value="#{produto}" />
 
 					</p:commandButton>
 				</p:column>
@@ -131,13 +133,20 @@
 					required="true"
 					requiredMessage="O campo 'Quantidade' é obrigatorio"
 					converterMessage="O valor informado no campo 'Quantidade' é invalido"
-					value="#{produtoBean.produto.quantidade}" />
+					value="#{produtoBean.produto.quantidade}"
+					validatorMessage="Informe um valor entre 0 e 1000 no campo 'Quantidade'">
+					<f:validateLongRange minimum="0" maximum="1000" />
+				</p:inputText>
 
 				<p:outputLabel for="precoID" value="Preco:" />
 				<p:inputText id="precoID" maxlength="7" size="10" required="true"
 					requiredMessage="O campo 'Preco' é obrigatorio"
 					converterMessage="O valor informado no campo 'Preco' é invalido"
-					value="#{produtoBean.produto.preco}" />
+					value="#{produtoBean.produto.preco}"
+					validatorMessage="Informe um valor entre 0.01 e 9999.99 no campo 'Preco'">
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</p:inputText>
 
 			</h:panelGrid>
 

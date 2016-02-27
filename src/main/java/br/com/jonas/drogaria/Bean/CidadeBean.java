@@ -51,7 +51,7 @@ public class CidadeBean implements Serializable {
 		cidade = new Cidade();
 		try {
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar();
+			estados = estadoDAO.listar("nome");	
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Estados");
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class CidadeBean implements Serializable {
 			
 			//por precalcao, atualizar a listagem de estado
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar();
+			estados = estadoDAO.listar("nome");
 
 			Messages.addGlobalInfo("Cidade Salvo com sucesso");
 		} catch (RuntimeException e) {
@@ -114,7 +114,7 @@ public class CidadeBean implements Serializable {
 			cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
 			
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar();
+			estados = estadoDAO.listar("nome");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Estados");
 			e.printStackTrace();

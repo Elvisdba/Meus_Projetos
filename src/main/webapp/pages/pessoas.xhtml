@@ -141,7 +141,7 @@
 		resizable="false" modal="true">
 
 		<h:form id="formCadastro">
-			<h:panelGrid id="panelGridCadastro" columns="4">
+			<h:panelGrid id="panelGridCadastro" columns="2">
 
 				<p:outputLabel for="nomeID" value="Nome: " />
 				<p:inputText id="nomeID" maxlength="50" size="40" required="true"
@@ -152,6 +152,27 @@
 				<p:inputText id="emailID" maxlength="100" size="30" required="true"
 					requiredMessage="O campo 'Email' é obrigatorio"
 					value="#{pessoaBean.pessoa.email}" />
+
+				<p:outputLabel for="rgID" value="RG: " />
+				<p:inputText id="rgID" maxlength="12" size="15" required="true"
+					requiredMessage="O campo 'RG' é obrigatorio"
+					value="#{pessoaBean.pessoa.rg}" />
+
+
+				<p:outputLabel for="cpfID" value="CPF: " />
+				<p:inputText id="cpfID" maxlength="14" size="15" required="true"
+					requiredMessage="O campo 'CPF' é obrigatorio"
+					value="#{pessoaBean.pessoa.cpf}" />
+
+				<p:outputLabel for="telefoneID" value="Telefone: " />
+				<p:inputText id="telefoneID" maxlength="13" size="15"
+					required="true" requiredMessage="O campo 'Telefone' é obrigatorio"
+					value="#{pessoaBean.pessoa.telefone}" />
+
+				<p:outputLabel for="celularID" value="Celular: " />
+				<p:inputText id="celularID" maxlength="14" size="15" required="true"
+					requiredMessage="O campo 'Celular' é obrigatorio"
+					value="#{pessoaBean.pessoa.celular}" />
 
 				<p:outputLabel for="ruaID" value="Rua: " />
 				<p:inputText id="ruaID" maxlength="100" size="30" required="true"
@@ -165,37 +186,36 @@
 
 				<p:outputLabel value="Numero: " />
 				<p:inputText maxlength="8" size="15"
-					value="#{pessoaBean.pessoa.numero}" 
-					converterMessage="O valor informado no campo 'Numero' é invalido"/>
+					value="#{pessoaBean.pessoa.numero}"
+					converterMessage="O valor informado no campo 'Numero' é invalido" />
+
+				<p:outputLabel value="Complemento: " />
+				<p:inputText maxlength="10" size="15"
+					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel for="cepID" value="CEP: " />
 				<p:inputText id="cepID" maxlength="10" size="15" required="true"
 					requiredMessage="O campo 'CEP' é obrigatorio"
 					value="#{pessoaBean.pessoa.cep}" />
 
-				<p:outputLabel value="Complemento: " />
-				<p:inputText maxlength="10" size="15"
-					value="#{pessoaBean.pessoa.complemento}" />
 
-				<p:outputLabel for="rgID" value="RG: " />
-				<p:inputText id="rgID" maxlength="12" size="15" required="true"
-					requiredMessage="O campo 'RG' é obrigatorio"
-					value="#{pessoaBean.pessoa.rg}" />
 
-				<p:outputLabel for="telefoneID" value="Telefone: " />
-				<p:inputText id="telefoneID" maxlength="13" size="15"
-					required="true" requiredMessage="O campo 'Telefone' é obrigatorio"
-					value="#{pessoaBean.pessoa.telefone}" />
+				<p:outputLabel for="estadoID" value="Estado: " />
+				<p:selectOneMenu id="estadoID" filter="true" required="true"
+					requiredMessage="O campo 'Estado' é obrigatorio"
+					converter="omnifaces.SelectItemsConverter">
 
-				<p:outputLabel for="celularID" value="Celular: " />
-				<p:inputText id="celularID" maxlength="14" size="15" required="true"
-					requiredMessage="O campo 'Celular' é obrigatorio"
-					value="#{pessoaBean.pessoa.celular}" />
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um Estado: " />
+
+					<f:selectItems value="#{pessoaBean.estados}" var="estado"
+						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
+				</p:selectOneMenu>
+
 
 				<p:outputLabel for="cidadeID" value="Cidade: " />
 				<p:selectOneMenu id="cidadeID" filter="true" required="true"
 					requiredMessage="O campo 'Cidade' é obrigatorio"
-					value="#{pessoaBean.pessoa.cidada}"
 					converter="omnifaces.SelectItemsConverter">
 
 					<f:selectItem noSelectionOption="true"
@@ -205,13 +225,11 @@
 						itemValue="#{cidade}"
 						itemLabel="#{cidade.nome} - #{cidade.estado.sigla}" />
 				</p:selectOneMenu>
-
-				<p:outputLabel for="cpfID" value="CPF: " />
-				<p:inputText id="cpfID" maxlength="14" size="15" required="true"
-					requiredMessage="O campo 'CPF' é obrigatorio"
-					value="#{pessoaBean.pessoa.cpf}" />
-
 			</h:panelGrid>
+
+
+
+
 
 			<!-- Botoes -->
 			<h:panelGrid columns="2">
@@ -222,9 +240,6 @@
 			</h:panelGrid>
 
 		</h:form>
-
 	</p:dialog>
-
-
 </h:body>
 </html>

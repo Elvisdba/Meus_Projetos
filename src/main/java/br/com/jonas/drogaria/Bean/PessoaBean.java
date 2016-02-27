@@ -1,6 +1,7 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,8 +12,10 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.jonas.drogaria.dao.CidadeDAO;
+import br.com.jonas.drogaria.dao.EstadoDAO;
 import br.com.jonas.drogaria.dao.PessoaDAO;
 import br.com.jonas.drogaria.domain.Cidade;
+import br.com.jonas.drogaria.domain.Estado;
 import br.com.jonas.drogaria.domain.Pessoa;
 
 @SuppressWarnings("serial")
@@ -23,6 +26,15 @@ public class PessoaBean implements Serializable {
 	private Pessoa pessoa;
 	private List<Pessoa> pessoas;
 	private List<Cidade> cidades;
+	private List<Estado> estados;
+
+	public List<Estado> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<Estado> estados) {
+		this.estados = estados;
+	}
 
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -52,8 +64,11 @@ public class PessoaBean implements Serializable {
 		pessoa = new Pessoa();
 
 		try {
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidades = cidadeDAO.listar();
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estados = estadoDAO.listar("nome");
+			
+			cidades = new ArrayList<Cidade>();
+			
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar cidades");
 			e.printStackTrace();
@@ -66,7 +81,7 @@ public class PessoaBean implements Serializable {
 	public void listar() {
 		try {
 			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoas = pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar");
@@ -82,7 +97,7 @@ public class PessoaBean implements Serializable {
 			PessoaDAO pessoaDAO = new PessoaDAO();
 			pessoaDAO.excluir(pessoa);
 
-			pessoas = pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 
 			Messages.addGlobalInfo("Pessoa removida com sucesso");
 		} catch (RuntimeException e) {
@@ -103,7 +118,7 @@ public class PessoaBean implements Serializable {
 			CidadeDAO cidadeDAO = new CidadeDAO();
 			cidades = cidadeDAO.listar();
 
-			pessoas = pessoaDAO.listar();
+			pessoas = pessoaDAO.listar("nome");
 			Messages.addGlobalInfo("Salvo com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Nao foi possivel salvar");
@@ -116,8 +131,10 @@ public class PessoaBean implements Serializable {
 		try {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidades = cidadeDAO.listar();
+			
+			
+			EstadoDAO estadoDAO = new EstadoDAO();
+			estados = estadoDAO.listar("nome");
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Cidades");

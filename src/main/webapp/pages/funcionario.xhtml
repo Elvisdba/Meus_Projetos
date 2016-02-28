@@ -8,6 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Funcionarios</title>
+	<h:outputScript library="js" name="scripts.js" />
 </h:head>
 <h:body>
 
@@ -50,7 +51,9 @@
 				<p:column headerText="Data Admisao"
 					filterBy="#{funcionario.dataAdmissao}"
 					sortBy="#{funcionario.dataAdmissao}">
-					<h:outputText value="#{funcionario.dataAdmissao}" />
+					<h:outputText value="#{funcionario.dataAdmissao}">
+						<f:convertDateTime locale="pt_BR" />
+					</h:outputText>
 				</p:column>
 
 
@@ -130,7 +133,7 @@
 				<p:calendar id="admissaoID" required="true"
 					requiredMessage="O campo 'Data de Admisaao' é obrigatorio"
 					value="#{funcionarioBean.funcionario.dataAdmissao}"
-					mindate="#{now}" effect="fold"/>
+					mindate="#{now}" effect="fold" locale="pt_BR" />
 
 				<p:outputLabel for="carteiraID" value="Carteira de Trabalho" />
 				<p:inputText id="carteiraID" maxlength="15" size="20"

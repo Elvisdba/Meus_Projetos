@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * @author jonascosta
@@ -42,6 +43,21 @@ public class Usuario extends GenericDomain {
 		return tipo;
 	}
 
+	// nao sera mapeado
+	@Transient
+	public String getTipoFormatado() {
+		String tipoFormatado = null;
+
+		if (tipo == 'A') {
+			tipoFormatado = "Administrador";
+		} else if (tipo == 'B') {
+			tipoFormatado = "Balconista";
+		} else if (tipo == 'G') {
+			tipoFormatado = "Gerente";
+		}
+		return tipoFormatado;
+	}
+
 	public void setTipo(Character tipo) {
 		this.tipo = tipo;
 	}
@@ -52,6 +68,20 @@ public class Usuario extends GenericDomain {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	// nao sera mapeado
+	@Transient
+	public String getAtivoFormatado() {
+		String ativoFormatado = null;
+
+		if (ativo) {
+			ativoFormatado = "Sim";
+		} else {
+			ativoFormatado = "Nao";
+		}
+
+		return ativoFormatado;
 	}
 
 	public Pessoa getPessoa() {

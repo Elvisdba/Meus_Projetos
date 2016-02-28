@@ -4,11 +4,25 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 	<!-- Nome da Aplicação -->
 	<display-name>Drogaria</display-name>
+
+
+
 	<!-- Estagio do Projeto -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+
+
+
+
+	<!-- thema do PrimeFAces -->
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>flick</param-value>
+	</context-param>
+
+
 	<!-- Configuracao do JFS -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -19,6 +33,8 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+
+
 
 	<!-- Carregamento do hibernate -->
 	<listener>

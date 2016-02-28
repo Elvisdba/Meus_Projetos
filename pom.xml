@@ -32,6 +32,20 @@
 	</build>
 
 
+	<!-- repositorios -->
+	<repositories>
+		<!-- primeFaces themes -->
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+
+
+
 	<!-- Dependencias -->
 	<dependencies>
 		<dependency>
@@ -69,6 +83,13 @@
 			<version>5.2</version>
 		</dependency>
 
+		<!-- PrimeFaces themes -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
 		<!-- PrimeFaces extensions -->
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
@@ -89,6 +110,8 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
+
 
 
 

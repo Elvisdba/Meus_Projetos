@@ -15,7 +15,6 @@ import javax.ws.rs.client.WebTarget;
 import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 import br.com.jonas.drogaria.dao.FabricanteDAO;
 import br.com.jonas.drogaria.domain.Fabricante;
@@ -85,6 +84,7 @@ public class FabricanteBean implements Serializable {
 			
 			Gson gson = new Gson();
 			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 		} catch (Exception e) {

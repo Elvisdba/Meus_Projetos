@@ -2,8 +2,10 @@ package br.com.jonas.drogaria.service;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -29,12 +31,14 @@ public class FabricanteService {
 		List<Fabricante> fabricantes = fabricanteDAO.listar("descricao");
 		
 		Gson gson = new Gson();
+		//converte objeto para json
 		String Json = gson.toJson(fabricantes);
 		
 		return Json;
 	}
 	
-	//http://localhost:8081/Drogaria/rest/fabricante/Numero-codigo
+	//http://localhost:8081/Drogaria/rest/fabricante/{codigo}
+	//http://localhost:8081/Drogaria/rest/fabricante/10   exemplo
 	@GET
 	@Path("{codigo}")
 	public String buscarPorCodigo(@PathParam("codigo") Long codigo) {
@@ -42,12 +46,14 @@ public class FabricanteService {
 		Fabricante fabricante = fabricanteDAO.buscarPorcodigo(codigo);
 		
 		Gson gson = new Gson();
-		String json = gson.toJson(fabricante);
+		String fabricanteJson = gson.toJson(fabricante);
 		
-		return json;
+		return fabricanteJson;
 		
 	}
 	
+	
+	//somente para salvar
 	//http://localhost:8081/Drogaria/rest/fabricante
 	@POST
 	public String salvar(String json) {
@@ -56,14 +62,43 @@ public class FabricanteService {
 		Fabricante fabricante = gson.fromJson(json, Fabricante.class);
 		
 		FabricanteDAO fabricanteDAO = new FabricanteDAO();
-		fabricanteDAO.merge(fabricante);
+		fabricanteDAO.salvar(fabricante);
 		
-		String fabricanteJsonRetorno = gson.toJson(fabricante);
+		String fabricanteJson = gson.toJson(fabricante);
 		
-		return fabricanteJsonRetorno;
+		return fabricanteJson;
 	}
 	
+	//http://localhost:8081/Drogaria/rest/fabricante
+	@PUT
+	public String editar(String json){
+		
+		Gson gson = new Gson();
+		//converte json para um objeto
+		Fabricante fabricante = gson.fromJson(json, Fabricante.class);
+		
+		FabricanteDAO fabricanteDAO = new FabricanteDAO();
+		fabricanteDAO.editar(fabricante);
+		
+		String fabricanteJson = gson.toJson(fabricante);
+		return fabricanteJson;
+	}
 	
-	
+	//http://localhost:8081/Drogaria/rest/fabricante
+	@DELETE
+	public String excluir(String json) {
+		
+		Gson gson = new Gson();
+		Fabricante fabricante = gson.fromJson(json, Fabricante.class);
+		
+		FabricanteDAO fabricanteDAO = new FabricanteDAO();
+		fabricante = fabricanteDAO.buscarPorcodigo(fabricante.getCodigo());
+		
+		fabricanteDAO.excluir(fabricante);
+		
+		String fabricanteJson = gson.toJson(fabricante);
+		return fabricanteJson;
+		
+	}
 	
 }

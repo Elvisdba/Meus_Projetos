@@ -1,14 +1,21 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
+
+import com.google.gson.Gson;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 import br.com.jonas.drogaria.dao.FabricanteDAO;
 import br.com.jonas.drogaria.domain.Fabricante;
@@ -60,8 +67,25 @@ public class FabricanteBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricantes = fabricanteDAO.listar();
+			
+			//chamando um DAO
+			//FabricanteDAO fabricanteDAO = new FabricanteDAO();
+			//fabricantes = fabricanteDAO.listar();
+			
+			
+			
+			
+			
+			//chama um service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			
+			//dentro do get vai tipo do retorno
+			String stringJson = url.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			fabricantes = Arrays.asList(vetorFabricantes);
 
 		} catch (Exception e) {
 			Messages.addGlobalError("Nao foi possivel listar os Fabricantes");

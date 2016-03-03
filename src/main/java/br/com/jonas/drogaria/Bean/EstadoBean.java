@@ -1,17 +1,25 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
 
+import com.google.gson.Gson;
+
 import br.com.jonas.drogaria.dao.EstadoDAO;
 import br.com.jonas.drogaria.domain.Estado;
+import br.com.jonas.drogaria.domain.Fabricante;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -43,10 +51,32 @@ public class EstadoBean implements Serializable {
 	// salvar
 	public void salvar() {
 		try {
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estadoDAO.merge(estado);
+			//chamada ao DAO
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estadoDAO.merge(estado);
+			
+			
+			
+			//chamada a service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
+			
+			Gson gson = new Gson();
+			String estadoJson = gson.toJson(estado);
+			
+			//salvar
+			//post so aceita Entity
+			url.request().post(Entity.json(estadoJson));
+			
+			
+			//listagem
+			//dentro do get vai tipo do retorno
+			String stringJson = url.request().get(String.class);
+			Estado[] vetorEstados = gson.fromJson(stringJson, Estado[].class);
+			estados = Arrays.asList(vetorEstados);
+			
+			
 			novo();
-			estados = estadoDAO.listar();
 
 			Messages.addGlobalInfo("Estado salvo com sucesso");
 		} catch (RuntimeException erro) {
@@ -59,9 +89,26 @@ public class EstadoBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar();
+			//chamada ao DAO
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar();
+			
+			
+			
+			
+			//chamada a Service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
 
+			//dentro do get vai tipo do retorno
+			String stringJson = url.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Estado[] vetorEstados = gson.fromJson(stringJson, Estado[].class);
+			
+			estados = Arrays.asList(vetorEstados);
+			
+			
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar listar os estados");
 			erro.printStackTrace();
@@ -85,7 +132,7 @@ public class EstadoBean implements Serializable {
 		}
 	}
 
-	//editar
+	// editar
 	public void editar(ActionEvent evento) {
 		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
 

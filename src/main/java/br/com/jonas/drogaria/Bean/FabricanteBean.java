@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
@@ -17,6 +18,7 @@ import org.omnifaces.util.Messages;
 import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.FabricanteDAO;
+import br.com.jonas.drogaria.domain.Estado;
 import br.com.jonas.drogaria.domain.Fabricante;
 
 @SuppressWarnings("serial")
@@ -50,10 +52,29 @@ public class FabricanteBean implements Serializable {
 	// salvar
 	public void salvar() {
 		try {
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricanteDAO.merge(fabricante);
+
+			// FabricanteDAO fabricanteDAO = new FabricanteDAO();
+			// fabricanteDAO.merge(fabricante);
+
+			// service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+
+			Gson gson = new Gson();
+			String fabricantJson = gson.toJson(fabricante);
+
+			// salvar
+			// post so aceita Entity
+			url.request().post(Entity.json(fabricantJson));
+
+			// listagem
+			// dentro do get vai tipo do retorno
+			String stringJson = url.request().get(String.class);
+			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			fabricantes = Arrays.asList(vetorFabricantes);
+
 			novo();
-			fabricantes = fabricanteDAO.listar();
+			// fabricantes = fabricanteDAO.listar();
 			Messages.addGlobalInfo("Fabricante salvo com sucesso");
 
 		} catch (Exception e) {
@@ -66,25 +87,21 @@ public class FabricanteBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			
-			//chamando um DAO
-			//FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			//fabricantes = fabricanteDAO.listar();
-			
-			
-			
-			
-			
-			//chama um service
+
+			// chamando um DAO
+			// FabricanteDAO fabricanteDAO = new FabricanteDAO();
+			// fabricantes = fabricanteDAO.listar();
+
+			// chama um service
 			Client client = ClientBuilder.newClient();
 			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
-			
-			//dentro do get vai tipo do retorno
+
+			// dentro do get vai tipo do retorno
 			String stringJson = url.request().get(String.class);
-			
+
 			Gson gson = new Gson();
 			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
-			
+
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 		} catch (Exception e) {
@@ -108,8 +125,8 @@ public class FabricanteBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	//editar
+
+	// editar
 	public void editar(ActionEvent evento) {
 		fabricante = (Fabricante) evento.getComponent().getAttributes().get("fabricanteSelecionado");
 	}

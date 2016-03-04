@@ -45,12 +45,6 @@ public class CidadeService {
 
 	
 	
-	
-	
-	/*
-	 * Arrumar
-	 */
-	
 	// http://localhost:8081/Drogaria/rest/cidade
 	@POST
 	public String salvar(String json) {

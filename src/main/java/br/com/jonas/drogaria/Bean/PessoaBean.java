@@ -142,12 +142,14 @@ public class PessoaBean implements Serializable {
 	public void editar(ActionEvent evento) {
 		try {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
-
+			estado = pessoa.getCidada().getEstado();
+			
+			
 			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar();
+			estados = estadoDAO.listar("nome");
 			
 			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidades = cidadeDAO.listar();
+			cidades = cidadeDAO.buscarPorEstado(estado.getCodigo());
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Cidades");

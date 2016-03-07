@@ -1,6 +1,10 @@
 package br.com.jonas.drogaria.Bean;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +13,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.jonas.drogaria.dao.FabricanteDAO;
 import br.com.jonas.drogaria.dao.ProdutoDAO;
@@ -122,6 +128,30 @@ public class ProdutoBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	//foto
+	public void upload(FileUploadEvent evento) {
+		
+		
+		try {
+			UploadedFile arquivoDeUpload = evento.getFile();
+			Path arquivoTemp = Files.createTempFile(null, null);
+			
+			Files.copy(arquivoDeUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
+			Messages.addGlobalInfo("Arquivo salvo com sucesso");
+			
+			produto.setCaminho(arquivoTemp.toString());
+			System.out.println("Caminho temporario da foto: " + produto.getCaminho());
+			
+		} catch (IOException e) {
+			Messages.addGlobalError("Erro ao tentar realizar o upload do arquivo");
+			e.printStackTrace();
+		}
+		
+		
+
+		
 	}
 
 }

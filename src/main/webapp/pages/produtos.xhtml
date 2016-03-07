@@ -106,7 +106,7 @@
 	<p:dialog header="Porduto - Cadastro" widgetVar="dialogo" modal="true"
 		resizable="false">
 
-		<h:form id="formCadastro">
+		<h:form id="formCadastro" enctype="multipart/form-data">
 
 			<h:panelGrid id="panelGridCadastro" columns="2">
 
@@ -147,6 +147,14 @@
 					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 				</p:inputText>
+
+				<p:outputLabel for="fotoID" value="Foto:" />
+				<p:fileUpload id="fotoID" mode="advanced"
+					fileUploadListener="#{produtoBean.upload}" auto="true" update=":mensagem"
+					sizeLimit="100000" invalidSizeMessage="Tamanho invalido"
+					fileLimit="1" fileLimitMessage="No maximo 1 foto" />
+
+
 
 			</h:panelGrid>
 

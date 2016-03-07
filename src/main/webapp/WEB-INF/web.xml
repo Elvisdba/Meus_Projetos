@@ -22,6 +22,11 @@
 		<param-value>flick</param-value>
 	</context-param>
 
+	<!-- Definicao do mecanismo de upload -->
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>native</param-value>
+	</context-param>
 
 	<!-- Configuracao do JFS -->
 	<servlet>

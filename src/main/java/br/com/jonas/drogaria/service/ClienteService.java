@@ -5,7 +5,10 @@ package br.com.jonas.drogaria.service;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -24,7 +27,7 @@ public class ClienteService {
 
 	// http://localhost:8081/Drogaria/rest/cliente
 	@GET
-	public String salvar() {
+	public String listar() {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		List<Cliente> clientes = clienteDAO.listar();
 
@@ -43,6 +46,57 @@ public class ClienteService {
 		Cliente cliente = clienteDAO.buscarPorcodigo(codigo);
 
 		Gson gson = new Gson();
+		String clienteJson = gson.toJson(cliente);
+
+		return clienteJson;
+
+	}
+
+	// verificar atributo data
+	// http://localhost:8081/Drogaria/rest/cliente
+	@DELETE
+	public String excluir(String json) {
+		Gson gson = new Gson();
+		Cliente cliente = gson.fromJson(json, Cliente.class);
+		System.out.println(cliente.getDataDoCadastro());
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+		cliente = clienteDAO.buscarPorcodigo(cliente.getCodigo());
+
+		clienteDAO.excluir(cliente);
+
+		String clienteJson = gson.toJson(cliente);
+		return clienteJson;
+
+	}
+
+	// verificar atributo data
+	// http://localhost:8081/Drogaria/rest/cliente
+	@PUT
+	public String editar(String json) {
+
+		Gson gson = new Gson();
+		Cliente cliente = gson.fromJson(json, Cliente.class);
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+		clienteDAO.editar(cliente);
+
+		String clienteJson = gson.toJson(cliente);
+
+		return clienteJson;
+
+	}
+
+	// verificar atributo data
+	// http://localhost:8081/Drogaria/rest/cliente
+	@POST
+	public String salvar(String json) {
+		Gson gson = new Gson();
+		Cliente cliente = gson.fromJson(json, Cliente.class);
+
+		ClienteDAO clienteDAO = new ClienteDAO();
+		clienteDAO.salvar(cliente);
+
 		String clienteJson = gson.toJson(cliente);
 
 		return clienteJson;

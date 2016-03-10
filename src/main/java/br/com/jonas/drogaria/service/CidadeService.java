@@ -2,8 +2,10 @@ package br.com.jonas.drogaria.service;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -43,20 +45,49 @@ public class CidadeService {
 		return cidadeJson;
 	}
 
-	
-	
 	// http://localhost:8081/Drogaria/rest/cidade
 	@POST
 	public String salvar(String json) {
 		Gson gson = new Gson();
 		Cidade cidade = gson.fromJson(json, Cidade.class);
-		
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		cidadeDAO.salvar(cidade);
 
 		String clienteJson = gson.toJson(cidade);
 		return clienteJson;
+	}
+
+	// http://localhost:8081/Drogaria/rest/cidade
+	@DELETE
+	public String excluir(String json) {
+
+		Gson gson = new Gson();
+		Cidade cidade = gson.fromJson(json, Cidade.class);
+
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		cidade = cidadeDAO.buscarPorcodigo(cidade.getCodigo());
+
+		cidadeDAO.excluir(cidade);
+
+		String cidadeJson = gson.toJson(cidade);
+
+		return cidadeJson;
+	}
+
+	// http://localhost:8081/Drogaria/rest/cidade
+	@PUT
+	public String editar(String json) {
+		Gson gson = new Gson();
+		Cidade cidade = gson.fromJson(json, Cidade.class);
+
+		CidadeDAO cidadeDAO = new CidadeDAO();
+		cidadeDAO.editar(cidade);
+
+		String cidadeJson = gson.toJson(cidade);
+
+		return cidadeJson;
+
 	}
 
 }

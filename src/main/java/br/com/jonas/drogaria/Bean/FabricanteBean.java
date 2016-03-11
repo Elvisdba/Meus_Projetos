@@ -18,7 +18,6 @@ import org.omnifaces.util.Messages;
 import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.FabricanteDAO;
-import br.com.jonas.drogaria.domain.Estado;
 import br.com.jonas.drogaria.domain.Fabricante;
 
 @SuppressWarnings("serial")
@@ -101,7 +100,6 @@ public class FabricanteBean implements Serializable {
 
 			Gson gson = new Gson();
 			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
-
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 		} catch (Exception e) {
@@ -115,10 +113,27 @@ public class FabricanteBean implements Serializable {
 		try {
 			fabricante = (Fabricante) evento.getComponent().getAttributes().get("fabricanteSelecionado");
 
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricanteDAO.excluir(fabricante);
+			
+			// usando um service
+			Client client = ClientBuilder.newClient();
+			// converte {codigo} em um valor valido
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			WebTarget urlExcluir = url.path("{codigo}").resolveTemplate("codigo", fabricante.getCodigo());
+			
+			//deleta
+			urlExcluir.request().delete();
+			String stringJson = url.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			fabricantes = Arrays.asList(vetorFabricantes);
 
-			fabricantes = fabricanteDAO.listar();
+			// FabricanteDAO fabricanteDAO = new FabricanteDAO();
+			// fabricanteDAO.excluir(fabricante);
+			// fabricantes = fabricanteDAO.listar();
+			
+			
+
 			Messages.addGlobalInfo("Excluido com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar excluir");

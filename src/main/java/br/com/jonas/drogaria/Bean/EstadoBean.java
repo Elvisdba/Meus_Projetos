@@ -51,31 +51,27 @@ public class EstadoBean implements Serializable {
 	// salvar
 	public void salvar() {
 		try {
-			//chamada ao DAO
-//			EstadoDAO estadoDAO = new EstadoDAO();
-//			estadoDAO.merge(estado);
-			
-			
-			
-			//chamada a service
+			// chamada ao DAO
+			// EstadoDAO estadoDAO = new EstadoDAO();
+			// estadoDAO.merge(estado);
+
+			// chamada a service
 			Client client = ClientBuilder.newClient();
 			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
-			
+
 			Gson gson = new Gson();
 			String estadoJson = gson.toJson(estado);
-			
-			//salvar
-			//post so aceita Entity
+
+			// salvar
+			// post so aceita Entity
 			url.request().post(Entity.json(estadoJson));
-			
-			
-			//listagem
-			//dentro do get vai tipo do retorno
+
+			// listagem
+			// dentro do get vai tipo do retorno
 			String stringJson = url.request().get(String.class);
 			Estado[] vetorEstados = gson.fromJson(stringJson, Estado[].class);
 			estados = Arrays.asList(vetorEstados);
-			
-			
+
 			novo();
 
 			Messages.addGlobalInfo("Estado salvo com sucesso");
@@ -89,41 +85,82 @@ public class EstadoBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			//chamada ao DAO
-//			EstadoDAO estadoDAO = new EstadoDAO();
-//			estados = estadoDAO.listar();
-			
-			
-			
-			
-			//chamada a Service
+			// chamada ao DAO
+			// EstadoDAO estadoDAO = new EstadoDAO();
+			// estados = estadoDAO.listar();
+
+			// chamada a Service
 			Client client = ClientBuilder.newClient();
 			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
 
-			//dentro do get vai tipo do retorno
-			String stringJson = url.request().get(String.class);
-			
+			// dentro do get vai tipo do retorno
+			String estadoJson = url.request().get(String.class);
+
 			Gson gson = new Gson();
-			Estado[] vetorEstados = gson.fromJson(stringJson, Estado[].class);
-			
+			Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
 			estados = Arrays.asList(vetorEstados);
-			
-			
+
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar listar os estados");
 			erro.printStackTrace();
 		}
 	}
+	
+	
+	/*
+	 * lista com retorno
+	 * return Estado
+	 */
+	public List<Estado> listaComRetorno() {
+		try {
+			// chamada ao DAO
+			// EstadoDAO estadoDAO = new EstadoDAO();
+			// estados = estadoDAO.listar();
+
+			// chamada a Service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
+
+			// dentro do get vai tipo do retorno
+			String estadoJson = url.request().get(String.class);
+
+			Gson gson = new Gson();
+			Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
+			estados = Arrays.asList(vetorEstados);
+
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar listar os estados");
+			erro.printStackTrace();
+		}
+		
+		return estados;
+	}
+	
 
 	// excluir
 	public void excluir(ActionEvent evento) {
 		try {
 			estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
 
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estadoDAO.excluir(estado);
+			// usando servico
+			Client client = ClientBuilder.newClient();
 
-			estados = estadoDAO.listar();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", estado.getCodigo());
+			
+			//requisicao para deletar
+			webTargetExcluir.request().delete();
+			
+			String estadoJson = webTarget.request().get(String.class);
+			
+			//lista
+			Gson gson = new Gson();
+	   	 	Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
+	   	 	estados = Arrays.asList(vetorEstados);
+
+			// EstadoDAO estadoDAO = new EstadoDAO();
+			// estadoDAO.excluir(estado);
+			// estados = estadoDAO.listar();
 
 			Messages.addGlobalInfo("Excluido com sucesso");
 		} catch (RuntimeException e) {

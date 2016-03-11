@@ -52,7 +52,7 @@ public class CidadeService {
 		Cidade cidade = gson.fromJson(json, Cidade.class);
 
 		CidadeDAO cidadeDAO = new CidadeDAO();
-		cidadeDAO.salvar(cidade);
+		cidadeDAO.merge(cidade);
 
 		String clienteJson = gson.toJson(cidade);
 		return clienteJson;

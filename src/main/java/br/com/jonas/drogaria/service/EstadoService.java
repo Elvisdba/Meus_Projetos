@@ -75,18 +75,17 @@ public class EstadoService {
 	
 	
 	
-	//http://localhost:8081/Drogaria/rest/estado
+	//http://localhost:8081/Drogaria/rest/estado/{codigo}
+	//http://localhost:8081/Drogaria/rest/estado/21
 	@DELETE
-	public String excluir(String json) {
-		
-		Gson gson = new Gson();
-		Estado estado = gson.fromJson(json, Estado.class);
-		
+	@Path("{codigo}")
+	public String excluir(@PathParam("codigo") Long codigo) {
 		EstadoDAO estadoDAO = new EstadoDAO();
-		estado = estadoDAO.buscarPorcodigo(estado.getCodigo());
+		Estado estado = estadoDAO.buscarPorcodigo(codigo);
 		
 		estadoDAO.excluir(estado);
 		
+		Gson gson = new Gson();
 		String estadoJson = gson.toJson(estado);
 		
 		return estadoJson;

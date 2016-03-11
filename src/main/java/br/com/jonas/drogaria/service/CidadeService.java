@@ -58,18 +58,17 @@ public class CidadeService {
 		return clienteJson;
 	}
 
-	// http://localhost:8081/Drogaria/rest/cidade
+	// http://localhost:8081/Drogaria/rest/cidade/{codigo}
+	//http://localhost:8081/Drogaria/rest/cidade/2
 	@DELETE
-	public String excluir(String json) {
-
-		Gson gson = new Gson();
-		Cidade cidade = gson.fromJson(json, Cidade.class);
-
+	@Path("{codigo}")
+	public String excluir(@PathParam("codigo") Long codigo) {
 		CidadeDAO cidadeDAO = new CidadeDAO();
-		cidade = cidadeDAO.buscarPorcodigo(cidade.getCodigo());
+		Cidade cidade = cidadeDAO.buscarPorcodigo(codigo);
 
 		cidadeDAO.excluir(cidade);
 
+		Gson gson = new Gson();
 		String cidadeJson = gson.toJson(cidade);
 
 		return cidadeJson;

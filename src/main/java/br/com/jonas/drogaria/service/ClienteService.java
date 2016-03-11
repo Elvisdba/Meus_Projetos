@@ -53,18 +53,18 @@ public class ClienteService {
 	}
 
 	// verificar atributo data
-	// http://localhost:8081/Drogaria/rest/cliente
+	// http://localhost:8081/Drogaria/rest/cliente/{codigo}
+	// http://localhost:8081/Drogaria/rest/cliente/5
 	@DELETE
-	public String excluir(String json) {
-		Gson gson = new Gson();
-		Cliente cliente = gson.fromJson(json, Cliente.class);
-		System.out.println(cliente.getDataDoCadastro());
+	@Path("{codigo}")
+	public String excluir(@PathParam("codigo") Long codigo) {
 
 		ClienteDAO clienteDAO = new ClienteDAO();
-		cliente = clienteDAO.buscarPorcodigo(cliente.getCodigo());
-
+		Cliente cliente = clienteDAO.buscarPorcodigo(codigo);
+		
 		clienteDAO.excluir(cliente);
 
+		Gson gson = new Gson();
 		String clienteJson = gson.toJson(cliente);
 		return clienteJson;
 

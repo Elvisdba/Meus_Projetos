@@ -84,18 +84,18 @@ public class FabricanteService {
 		return fabricanteJson;
 	}
 	
-	//http://localhost:8081/Drogaria/rest/fabricante
+	//http://localhost:8081/Drogaria/rest/fabricante/{codigo}
+	//http://localhost:8081/Drogaria/rest/fabricante/10
 	@DELETE
-	public String excluir(String json) {
-		
-		Gson gson = new Gson();
-		Fabricante fabricante = gson.fromJson(json, Fabricante.class);
+	@Path("{codigo}")
+	public String excluir(@PathParam("codigo") Long codigo) {
 		
 		FabricanteDAO fabricanteDAO = new FabricanteDAO();
-		fabricante = fabricanteDAO.buscarPorcodigo(fabricante.getCodigo());
+		Fabricante fabricante = fabricanteDAO.buscarPorcodigo(codigo);
 		
 		fabricanteDAO.excluir(fabricante);
 		
+		Gson gson = new Gson();
 		String fabricanteJson = gson.toJson(fabricante);
 		return fabricanteJson;
 		

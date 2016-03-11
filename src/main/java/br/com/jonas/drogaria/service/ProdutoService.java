@@ -71,16 +71,15 @@ public class ProdutoService {
 
 	// http://localhost:8081/Drogaria/rest/produto
 	@DELETE
-	public String excluir(String json) {
-
-		Gson gson = new Gson();
-		Produto produto = gson.fromJson(json, Produto.class);
+	@Path("{codigo}")
+	public String excluir(@PathParam("codigo") Long codigo) {
 
 		ProdutoDAO produtoDAO = new ProdutoDAO();
-		produto = produtoDAO.buscarPorcodigo(produto.getCodigo());
-
+		Produto produto = produtoDAO.buscarPorcodigo(codigo);
+		
 		produtoDAO.excluir(produto);
 
+		Gson gson = new Gson();
 		String produtoJson = gson.toJson(produto);
 		return produtoJson;
 	}

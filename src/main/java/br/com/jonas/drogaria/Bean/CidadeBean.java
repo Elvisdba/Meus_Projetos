@@ -79,11 +79,11 @@ public class CidadeBean implements Serializable {
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
 			
+			// dentro do get vai tipo do retorno
 			String cidadeJson = webTarget.request().get(String.class);
 			
 			Gson gson = new Gson();
 			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
-			
 			cidades = Arrays.asList(vetorCidades);
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();

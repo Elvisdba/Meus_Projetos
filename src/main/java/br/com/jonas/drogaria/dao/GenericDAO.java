@@ -124,6 +124,7 @@ public class GenericDAO<Entidade> {
 	}
 
 	// Merge
+	@SuppressWarnings("unchecked")
 	public Entidade merge(Entidade entidade) {
 		// conecta
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();

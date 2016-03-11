@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -84,7 +85,13 @@ public class ProdutoBean implements Serializable {
 	public void salvar() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.merge(produto);
+			Produto produtoRetorno = produtoDAO.merge(produto);
+
+			Path origem = Paths.get(produto.getCaminho());
+			Path destino = Paths.get("/Users/jonascosta/Workspace_Eclipse/Programacao web com java/Uploads/"
+					+ produtoRetorno.getCodigo() + ".jpg");
+			
+			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
 
 			novo();
 			produtos = produtoDAO.listar();
@@ -93,7 +100,7 @@ public class ProdutoBean implements Serializable {
 			fabricantes = fabricanteDAO.listar("descricao");
 
 			Messages.addFlashGlobalInfo("Produto salvo com sucesso");
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | IOException  e) {
 			Messages.addFlashGlobalError("Erro ao tentar salvar");
 			e.printStackTrace();
 		}
@@ -129,29 +136,25 @@ public class ProdutoBean implements Serializable {
 		}
 
 	}
-	
-	//foto
+
+	// foto
 	public void upload(FileUploadEvent evento) {
-		
-		
+
 		try {
 			UploadedFile arquivoDeUpload = evento.getFile();
 			Path arquivoTemp = Files.createTempFile(null, null);
-			
+
 			Files.copy(arquivoDeUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
-			Messages.addGlobalInfo("Arquivo salvo com sucesso");
-			
 			produto.setCaminho(arquivoTemp.toString());
-			System.out.println("Caminho temporario da foto: " + produto.getCaminho());
 			
+			Messages.addGlobalInfo("Upload realizado com sucesso");
+			System.out.println("Caminho temporario da foto: " + produto.getCaminho());
+
 		} catch (IOException e) {
 			Messages.addGlobalError("Erro ao tentar realizar o upload do arquivo");
 			e.printStackTrace();
 		}
-		
-		
 
-		
 	}
 
 }

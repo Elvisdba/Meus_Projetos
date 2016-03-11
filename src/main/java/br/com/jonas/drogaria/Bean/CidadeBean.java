@@ -1,18 +1,26 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
+
+import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.CidadeDAO;
 import br.com.jonas.drogaria.dao.EstadoDAO;
 import br.com.jonas.drogaria.domain.Cidade;
+import br.com.jonas.drogaria.domain.Cliente;
 import br.com.jonas.drogaria.domain.Estado;
 
 @SuppressWarnings("serial")
@@ -50,8 +58,12 @@ public class CidadeBean implements Serializable {
 	public void novo() {
 		cidade = new Cidade();
 		try {
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");	
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar("nome");	
+			
+			EstadoBean estadoBean = new EstadoBean();
+			estados = estadoBean.listaComRetorno();
+			
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Estados");
 			e.printStackTrace();
@@ -62,27 +74,84 @@ public class CidadeBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidades = cidadeDAO.listar();
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			
+			String cidadeJson = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
+			
+			cidades = Arrays.asList(vetorCidades);
+			
+//			CidadeDAO cidadeDAO = new CidadeDAO();
+//			cidades = cidadeDAO.listar();
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar");
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * Lista com retorno
+	 * retorn Cidade
+	 */
+	public List<Cidade> listarComRetorno() {
+		try {
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			
+			String cidadeJson = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
+			
+			cidades = Arrays.asList(vetorCidades);
+			
+//			CidadeDAO cidadeDAO = new CidadeDAO();
+//			cidades = cidadeDAO.listar();
+
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar");
+			e.printStackTrace();
+		}
+		
+		return cidades;
+	}
 
 	// salvar
 	public void salvar() {
 		try {
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidadeDAO.merge(cidade);
-
-			novo();
-			cidades = cidadeDAO.listar();
 			
-			//por precalcao, atualizar a listagem de estado
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			
+			Gson gson = new Gson();
+			String cidadeJson = gson.toJson(cidade);
+			
+			webTarget.request().post(Entity.json(cidadeJson));
+			
+			novo();
+
+			String stringCidade = webTarget.request().get(String.class);
+			Cidade[] vetorCidades = gson.fromJson(stringCidade, Cidade[].class);
+			cidades = Arrays.asList(vetorCidades);
+			
+			
+			
+//			CidadeDAO cidadeDAO = new CidadeDAO();
+//			cidadeDAO.merge(cidade);
+
+			
+			
+//			//por precalcao, atualizar a listagem de estado
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar("nome");
 
 			Messages.addGlobalInfo("Cidade Salvo com sucesso");
 		} catch (RuntimeException e) {
@@ -96,10 +165,24 @@ public class CidadeBean implements Serializable {
 		try {
 			cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
 
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidadeDAO.excluir(cidade);
-
-			cidades = cidadeDAO.listar();
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", cidade.getCodigo());
+			
+			//requisicao para deletar
+			webTargetExcluir.request().delete();
+			
+			String cidadeJson = webTarget.request().get(String.class);
+			
+			//lista
+			Gson gson = new Gson();
+			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
+			cidades = Arrays.asList(vetorCidades);
+			
+//			CidadeDAO cidadeDAO = new CidadeDAO();
+//			cidadeDAO.excluir(cidade);
+//			cidades = cidadeDAO.listar();
 
 			Messages.addGlobalInfo("Cidade removida com sucesso");
 		} catch (RuntimeException e) {
@@ -113,8 +196,13 @@ public class CidadeBean implements Serializable {
 		try {
 			cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
 			
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar("nome");
+			
+			EstadoBean estadoBean = new EstadoBean();
+			estados = estadoBean.listaComRetorno();
+			
+			
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar os Estados");
 			e.printStackTrace();

@@ -1,14 +1,21 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import br.com.jonas.drogaria.dao.ClienteDAO;
 import br.com.jonas.drogaria.dao.PessoaDAO;
@@ -65,6 +72,22 @@ public class ClienteBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
+			
+			//verificar Gson com tipos Data
+			
+//			//usando service
+//			Client client = ClientBuilder.newClient();
+//			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cliente");
+//			
+//			//metodo get pega o retorno
+//			String clienteJson = webTarget.request().get(String.class);
+//			
+//			Gson gson = new Gson();
+//			Cliente[] vetorClientes = gson.fromJson(clienteJson, Cliente[].class);
+//			clientes = Arrays.asList(vetorClientes);
+			
+			
+			
 			ClienteDAO clienteDAO = new ClienteDAO();
 			clientes = clienteDAO.listar();
 			

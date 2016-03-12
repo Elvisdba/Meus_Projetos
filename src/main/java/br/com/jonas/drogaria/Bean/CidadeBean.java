@@ -134,11 +134,7 @@ public class CidadeBean implements Serializable {
 			webTarget.request().post(Entity.json(cidadeJson));
 			
 			novo();
-
-			String stringCidade = webTarget.request().get(String.class);
-			Cidade[] vetorCidades = gson.fromJson(stringCidade, Cidade[].class);
-			cidades = Arrays.asList(vetorCidades);
-			
+			cidades = listarComRetorno();
 			
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();
@@ -170,12 +166,9 @@ public class CidadeBean implements Serializable {
 			//requisicao para deletar
 			webTargetExcluir.request().delete();
 			
-			String json = webTarget.request().get(String.class);
-			
 			//lista
-			Gson gson = new Gson();
-			Cidade[] vetorCidades = gson.fromJson(json, Cidade[].class);
-			cidades = Arrays.asList(vetorCidades);
+			cidades = listarComRetorno();
+		
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();
 //			cidadeDAO.excluir(cidade);

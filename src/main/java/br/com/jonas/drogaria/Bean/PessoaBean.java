@@ -2,14 +2,20 @@ package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
+
+import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.CidadeDAO;
 import br.com.jonas.drogaria.dao.EstadoDAO;
@@ -92,8 +98,20 @@ public class PessoaBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoas = pessoaDAO.listar("nome");
+			
+			//usando Cliente
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/pessoa");
+			
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Pessoa[] vetorPessoas = gson.fromJson(json, Pessoa[].class);
+			pessoas = Arrays.asList(vetorPessoas);
+			
+			
+//			PessoaDAO pessoaDAO = new PessoaDAO();
+//			pessoas = pessoaDAO.listar("nome");
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar");

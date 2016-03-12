@@ -5,6 +5,7 @@ package br.com.jonas.drogaria.service;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -84,6 +85,24 @@ public class PessoaService {
 		
 		return pessoaJson;
 		
+	}
+	
+	
+	//http://localhost:8081/Drogaria/rest/pessoa/{codigo}
+	//http://localhost:8081/Drogaria/rest/pessoa/21
+	@Path("{codigo}")
+	@DELETE
+	public String excluir(@PathParam("codigo") Long codigo) {
+		
+		PessoaDAO pessoaDAO = new PessoaDAO();
+		Pessoa pessoa = pessoaDAO.buscarPorcodigo(codigo);
+		
+		pessoaDAO.excluir(pessoa);
+		
+		Gson gson = new Gson();
+		String pessoaJson = gson.toJson(pessoa);
+		
+		return pessoaJson;
 	}
 
 }

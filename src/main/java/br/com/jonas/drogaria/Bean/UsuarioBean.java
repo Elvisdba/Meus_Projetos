@@ -1,14 +1,20 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
+
+import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.UsuarioDAO;
 import br.com.jonas.drogaria.domain.Pessoa;
@@ -65,12 +71,47 @@ public class UsuarioBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
-			usuarios = usuarioDAO.listar();
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Usuario[] vetorUsuario = gson.fromJson(json, Usuario[].class);
+			usuarios = Arrays.asList(vetorUsuario);
+			
+//			UsuarioDAO usuarioDAO = new UsuarioDAO();
+//			usuarios = usuarioDAO.listar();
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Usuario");
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public List<Usuario> listarComRetorno() {
+		try {
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Usuario[] vetorUsuario = gson.fromJson(json, Usuario[].class);
+			usuarios = Arrays.asList(vetorUsuario);
+			
+//			UsuarioDAO usuarioDAO = new UsuarioDAO();
+//			usuarios = usuarioDAO.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar Usuario");
+			e.printStackTrace();
+		}
+		
+		return usuarios;
 	}
 
 	public void salvar() {

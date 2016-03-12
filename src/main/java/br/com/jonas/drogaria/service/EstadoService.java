@@ -37,7 +37,7 @@ public class EstadoService {
 		Estado estado = gson.fromJson(json, Estado.class);
 
 		EstadoDAO estadoDAO = new EstadoDAO();
-		estadoDAO.salvar(estado);
+		estadoDAO.merge(estado);
 
 		String estadoJson = gson.toJson(estado);
 

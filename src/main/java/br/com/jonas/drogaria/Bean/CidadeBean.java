@@ -80,10 +80,10 @@ public class CidadeBean implements Serializable {
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
 			
 			// dentro do get vai tipo do retorno
-			String cidadeJson = webTarget.request().get(String.class);
+			String json = webTarget.request().get(String.class);
 			
 			Gson gson = new Gson();
-			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
+			Cidade[] vetorCidades = gson.fromJson(json, Cidade[].class);
 			cidades = Arrays.asList(vetorCidades);
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();
@@ -106,11 +106,10 @@ public class CidadeBean implements Serializable {
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
 			
-			String cidadeJson = webTarget.request().get(String.class);
+			String json = webTarget.request().get(String.class);
 			
 			Gson gson = new Gson();
-			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
-			
+			Cidade[] vetorCidades = gson.fromJson(json, Cidade[].class);
 			cidades = Arrays.asList(vetorCidades);
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();
@@ -173,11 +172,11 @@ public class CidadeBean implements Serializable {
 			//requisicao para deletar
 			webTargetExcluir.request().delete();
 			
-			String cidadeJson = webTarget.request().get(String.class);
+			String json = webTarget.request().get(String.class);
 			
 			//lista
 			Gson gson = new Gson();
-			Cidade[] vetorCidades = gson.fromJson(cidadeJson, Cidade[].class);
+			Cidade[] vetorCidades = gson.fromJson(json, Cidade[].class);
 			cidades = Arrays.asList(vetorCidades);
 			
 //			CidadeDAO cidadeDAO = new CidadeDAO();

@@ -68,8 +68,8 @@ public class FabricanteBean implements Serializable {
 
 			// listagem
 			// dentro do get vai tipo do retorno
-			String stringJson = url.request().get(String.class);
-			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			String json = url.request().get(String.class);
+			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 			novo();
@@ -96,10 +96,10 @@ public class FabricanteBean implements Serializable {
 			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
 
 			// dentro do get vai tipo do retorno
-			String stringJson = url.request().get(String.class);
+			String json = url.request().get(String.class);
 
 			Gson gson = new Gson();
-			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 		} catch (Exception e) {
@@ -122,10 +122,10 @@ public class FabricanteBean implements Serializable {
 			
 			//deleta
 			urlExcluir.request().delete();
-			String stringJson = url.request().get(String.class);
+			String json = url.request().get(String.class);
 			
 			Gson gson = new Gson();
-			Fabricante[] vetorFabricantes = gson.fromJson(stringJson, Fabricante[].class);
+			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
 			fabricantes = Arrays.asList(vetorFabricantes);
 
 			// FabricanteDAO fabricanteDAO = new FabricanteDAO();

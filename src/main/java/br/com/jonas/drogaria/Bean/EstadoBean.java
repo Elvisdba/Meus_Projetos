@@ -57,19 +57,19 @@ public class EstadoBean implements Serializable {
 
 			// chamada a service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
 
 			Gson gson = new Gson();
 			String estadoJson = gson.toJson(estado);
 
 			// salvar
 			// post so aceita Entity
-			url.request().post(Entity.json(estadoJson));
+			webTarget.request().post(Entity.json(estadoJson));
 
 			// listagem
 			// dentro do get vai tipo do retorno
-			String stringJson = url.request().get(String.class);
-			Estado[] vetorEstados = gson.fromJson(stringJson, Estado[].class);
+			String json = webTarget.request().get(String.class);
+			Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
 			estados = Arrays.asList(vetorEstados);
 
 			novo();
@@ -91,13 +91,13 @@ public class EstadoBean implements Serializable {
 
 			// chamada a Service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarger = client.target("http://localhost:8081/Drogaria/rest/estado");
 
 			// dentro do get vai tipo do retorno
-			String estadoJson = url.request().get(String.class);
+			String json = webTarger.request().get(String.class);
 
 			Gson gson = new Gson();
-			Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
+			Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
 			estados = Arrays.asList(vetorEstados);
 
 		} catch (RuntimeException erro) {
@@ -119,13 +119,13 @@ public class EstadoBean implements Serializable {
 
 			// chamada a Service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
 
 			// dentro do get vai tipo do retorno
-			String estadoJson = url.request().get(String.class);
+			String json = webTarget.request().get(String.class);
 
 			Gson gson = new Gson();
-			Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
+			Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
 			estados = Arrays.asList(vetorEstados);
 
 		} catch (RuntimeException erro) {
@@ -151,11 +151,11 @@ public class EstadoBean implements Serializable {
 			//requisicao para deletar
 			webTargetExcluir.request().delete();
 			
-			String estadoJson = webTarget.request().get(String.class);
+			String json = webTarget.request().get(String.class);
 			
 			//lista
 			Gson gson = new Gson();
-	   	 	Estado[] vetorEstados = gson.fromJson(estadoJson, Estado[].class);
+	   	 	Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
 	   	 	estados = Arrays.asList(vetorEstados);
 
 			// EstadoDAO estadoDAO = new EstadoDAO();

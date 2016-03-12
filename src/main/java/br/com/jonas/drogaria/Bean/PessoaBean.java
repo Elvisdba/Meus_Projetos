@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
@@ -82,8 +83,11 @@ public class PessoaBean implements Serializable {
 			pessoa = new Pessoa();
 			estado = new Estado();
 			
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar("nome");
+			
+			EstadoBean estadoBean = new EstadoBean();
+			estados = estadoBean.listaComRetorno();
 			
 			CidadeBean cidadeBean = new CidadeBean();
 			cidades = cidadeBean.listarComRetorno();
@@ -160,7 +164,6 @@ public class PessoaBean implements Serializable {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 
 			//usando service
-			
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/pessoa");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", pessoa.getCodigo());
@@ -190,8 +193,24 @@ public class PessoaBean implements Serializable {
 	public void salvar() {
 
 		try {
-			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoaDAO.merge(pessoa);
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/pessoa");
+			
+			Gson gson = new Gson();
+			String pessoaJson = gson.toJson(pessoa);
+			
+			webTarget.request().post(Entity.json(pessoaJson));
+			
+			novo();
+			
+			String stringPessoa = webTarget.request().get(String.class);
+			Pessoa[] vetorPessoa = gson.fromJson(stringPessoa, Pessoa[].class);
+			pessoas = Arrays.asList(vetorPessoa);
+			
+//			PessoaDAO pessoaDAO = new PessoaDAO();
+//			pessoaDAO.merge(pessoa);
 
 			novo();
 
@@ -201,7 +220,7 @@ public class PessoaBean implements Serializable {
 //			CidadeDAO cidadeDAO = new CidadeDAO();
 //			cidades = cidadeDAO.listar();
 
-			pessoas = pessoaDAO.listar("nome");
+			//pessoas = pessoaDAO.listar("nome");
 			Messages.addGlobalInfo("Salvo com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Nao foi possivel salvar");

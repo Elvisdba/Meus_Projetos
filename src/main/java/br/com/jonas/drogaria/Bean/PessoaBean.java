@@ -200,15 +200,11 @@ public class PessoaBean implements Serializable {
 			webTarget.request().post(Entity.json(pessoaJson));
 			
 			novo();
-			
-			String stringPessoa = webTarget.request().get(String.class);
-			Pessoa[] vetorPessoa = gson.fromJson(stringPessoa, Pessoa[].class);
-			pessoas = Arrays.asList(vetorPessoa);
+			pessoas = listarComRetorno();
 			
 //			PessoaDAO pessoaDAO = new PessoaDAO();
 //			pessoaDAO.merge(pessoa);
 
-			novo();
 
 			CidadeBean cidadeBean = new CidadeBean();
 			cidades = cidadeBean.listarComRetorno();

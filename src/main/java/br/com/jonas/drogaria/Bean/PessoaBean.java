@@ -19,8 +19,6 @@ import org.omnifaces.util.Messages;
 import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.CidadeDAO;
-import br.com.jonas.drogaria.dao.EstadoDAO;
-import br.com.jonas.drogaria.dao.PessoaDAO;
 import br.com.jonas.drogaria.domain.Cidade;
 import br.com.jonas.drogaria.domain.Estado;
 import br.com.jonas.drogaria.domain.Pessoa;

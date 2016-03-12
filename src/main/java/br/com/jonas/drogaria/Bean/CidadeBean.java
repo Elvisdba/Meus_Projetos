@@ -124,6 +124,7 @@ public class CidadeBean implements Serializable {
 	public void salvar() {
 		try {
 			
+			//usando service
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
 			

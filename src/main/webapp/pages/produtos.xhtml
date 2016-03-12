@@ -148,17 +148,6 @@
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 				</p:inputText>
 
-				<p:outputLabel for="fotoID" value="Foto:" />
-				<p:fileUpload id="fotoID" mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-					fileUploadListener="#{produtoBean.upload}" auto="true" update=":mensagem"
-					invalidFileMessage="Formato da imagem nao é valido"
-					sizeLimit="100000" invalidSizeMessage="Tamanho invalido"
-					fileLimit="1" fileLimitMessage="No maximo 1 foto" 
-					required="true" requiredMessage="Voce precisa inserir uma foto" />
-					
-					
-
-
 
 			</h:panelGrid>
 

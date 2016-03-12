@@ -106,6 +106,33 @@ public class FabricanteBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<Fabricante> listarComRetorno() {
+		try {
+
+			// chamando um DAO
+			// FabricanteDAO fabricanteDAO = new FabricanteDAO();
+			// fabricantes = fabricanteDAO.listar();
+
+			// chama um service
+			Client client = ClientBuilder.newClient();
+			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+
+			// dentro do get vai tipo do retorno
+			String json = url.request().get(String.class);
+
+			Gson gson = new Gson();
+			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
+			fabricantes = Arrays.asList(vetorFabricantes);
+
+		} catch (Exception e) {
+			Messages.addGlobalError("Nao foi possivel listar os Fabricantes");
+			e.printStackTrace();
+		}
+		
+		return fabricantes;
+	}
+	
 
 	// excluir
 	public void excluir(ActionEvent evento) {

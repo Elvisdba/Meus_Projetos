@@ -169,12 +169,10 @@ public class PessoaBean implements Serializable {
 			//requisicao para deletar
 			webTargetExcluir.request().delete();
 			
-			String json = webTarget.request().get(String.class);
 			
 			//lista
-			Gson gson = new Gson();
-			Pessoa[] vetorPessoa = gson.fromJson(json, Pessoa[].class);
-			pessoas = Arrays.asList(vetorPessoa);
+			pessoas = listarComRetorno();
+		
 			
 //			PessoaDAO pessoaDAO = new PessoaDAO();
 //			pessoaDAO.excluir(pessoa);

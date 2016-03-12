@@ -1,24 +1,22 @@
 package br.com.jonas.drogaria.Bean;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 
-import br.com.jonas.drogaria.dao.FabricanteDAO;
-import br.com.jonas.drogaria.dao.ProdutoDAO;
+import com.google.gson.Gson;
+
 import br.com.jonas.drogaria.domain.Fabricante;
 import br.com.jonas.drogaria.domain.Produto;
 
@@ -59,8 +57,12 @@ public class ProdutoBean implements Serializable {
 		produto = new Produto();
 
 		try {
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricantes = fabricanteDAO.listar("descricao");
+			FabricanteBean fabricanteBean = new FabricanteBean();
+			fabricantes = fabricanteBean.listarComRetorno();
+			
+			
+//			FabricanteDAO fabricanteDAO = new FabricanteDAO();
+//			fabricantes = fabricanteDAO.listar("descricao");
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Fabricantes");
@@ -72,35 +74,86 @@ public class ProdutoBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtos = produtoDAO.listar();
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Produto[] vetorProduto = gson.fromJson(json, Produto[].class);
+			produtos = Arrays.asList(vetorProduto);
+			
+
+			
+//			ProdutoDAO produtoDAO = new ProdutoDAO();
+//			produtos = produtoDAO.listar();
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Produtos");
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/*
+	 * Listar com retorno
+	 * return Produto
+	 */
+	
+	public List<Produto> listarComRetorno() {
+		try {
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Produto[] vetorProduto = gson.fromJson(json, Produto[].class);
+			produtos = Arrays.asList(vetorProduto);
+			
+
+			
+//			ProdutoDAO produtoDAO = new ProdutoDAO();
+//			produtos = produtoDAO.listar();
+
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar Produtos");
+			e.printStackTrace();
+		}
+		
+		return produtos;
+	}
+	
 
 	// salvar
 	public void salvar() {
 		try {
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			Produto produtoRetorno = produtoDAO.merge(produto);
-
-			Path origem = Paths.get(produto.getCaminho());
-			Path destino = Paths.get("/Users/jonascosta/Workspace_Eclipse/Programacao web com java/Uploads/"
-					+ produtoRetorno.getCodigo() + ".jpg");
 			
-			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+//			ProdutoDAO produtoDAO = new ProdutoDAO();
+//			Produto produtoRetorno = produtoDAO.merge(produto);
 
+			
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			
+			Gson gson = new Gson();
+			String pessoaJson = gson.toJson(produto);
+			
+			webTarget.request().post(Entity.json(pessoaJson));
+			
 			novo();
-			produtos = produtoDAO.listar();
+			produtos = listarComRetorno();
 
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricantes = fabricanteDAO.listar("descricao");
+			FabricanteBean fabricanteBean = new FabricanteBean();
+			fabricantes = fabricanteBean.listarComRetorno();
 
 			Messages.addFlashGlobalInfo("Produto salvo com sucesso");
-		} catch (RuntimeException | IOException  e) {
+		} catch (RuntimeException e) {
 			Messages.addFlashGlobalError("Erro ao tentar salvar");
 			e.printStackTrace();
 		}
@@ -111,8 +164,12 @@ public class ProdutoBean implements Serializable {
 		try {
 			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
 
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricantes = fabricanteDAO.listar("descricao");
+//			FabricanteDAO fabricanteDAO = new FabricanteDAO();
+//			fabricantes = fabricanteDAO.listar("descricao");
+			
+			FabricanteBean fabricanteBean = new FabricanteBean();
+			fabricantes = fabricanteBean.listarComRetorno();
+		
 		} catch (RuntimeException e) {
 			Messages.addFlashGlobalError("Erro ao tentar Listar Fabricantes");
 			e.printStackTrace();
@@ -124,10 +181,18 @@ public class ProdutoBean implements Serializable {
 		try {
 			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
 
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.excluir(produto);
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", produto.getCodigo());
+			
+			webTargetExcluir.request().delete();
+			
+			produtos = listarComRetorno();
+			
+//			ProdutoDAO produtoDAO = new ProdutoDAO();
+//			produtoDAO.excluir(produto);
 
-			produtos = produtoDAO.listar();
 
 			Messages.addFlashGlobalInfo("Produto excluido com sucesso");
 		} catch (RuntimeException e) {
@@ -137,24 +202,6 @@ public class ProdutoBean implements Serializable {
 
 	}
 
-	// foto
-	public void upload(FileUploadEvent evento) {
-
-		try {
-			UploadedFile arquivoDeUpload = evento.getFile();
-			Path arquivoTemp = Files.createTempFile(null, null);
-
-			Files.copy(arquivoDeUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
-			produto.setCaminho(arquivoTemp.toString());
-			
-			Messages.addGlobalInfo("Upload realizado com sucesso");
-			System.out.println("Caminho temporario da foto: " + produto.getCaminho());
-
-		} catch (IOException e) {
-			Messages.addGlobalError("Erro ao tentar realizar o upload do arquivo");
-			e.printStackTrace();
-		}
-
-	}
+	
 
 }

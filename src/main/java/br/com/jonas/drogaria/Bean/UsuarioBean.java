@@ -10,13 +10,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
-import br.com.jonas.drogaria.dao.UsuarioDAO;
 import br.com.jonas.drogaria.domain.Pessoa;
 import br.com.jonas.drogaria.domain.Usuario;
 
@@ -71,61 +71,69 @@ public class UsuarioBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
-			
-			//usando service
+
+			// usando service
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
 
 			String json = webTarget.request().get(String.class);
-			
+
 			Gson gson = new Gson();
 			Usuario[] vetorUsuario = gson.fromJson(json, Usuario[].class);
 			usuarios = Arrays.asList(vetorUsuario);
-			
-//			UsuarioDAO usuarioDAO = new UsuarioDAO();
-//			usuarios = usuarioDAO.listar();
+
+			// UsuarioDAO usuarioDAO = new UsuarioDAO();
+			// usuarios = usuarioDAO.listar();
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Usuario");
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public List<Usuario> listarComRetorno() {
 		try {
-			
-			//usando service
+
+			// usando service
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
 
 			String json = webTarget.request().get(String.class);
-			
+
 			Gson gson = new Gson();
 			Usuario[] vetorUsuario = gson.fromJson(json, Usuario[].class);
 			usuarios = Arrays.asList(vetorUsuario);
-			
-//			UsuarioDAO usuarioDAO = new UsuarioDAO();
-//			usuarios = usuarioDAO.listar();
+
+			// UsuarioDAO usuarioDAO = new UsuarioDAO();
+			// usuarios = usuarioDAO.listar();
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Usuario");
 			e.printStackTrace();
 		}
-		
+
 		return usuarios;
 	}
 
 	public void salvar() {
 
 		try {
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
-			usuarioDAO.merge(usuario);
+			// usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+
+			Gson gson = new Gson();
+			String usuarioJson = gson.toJson(usuario);
+
+			webTarget.request().post(Entity.json(usuarioJson));
 
 			novo();
+			usuarios = listarComRetorno();
 
-			usuarios = usuarioDAO.listar();
-			Messages.addFlashGlobalInfo("Usuario Armazenado com sucesso");
+			// UsuarioDAO usuarioDAO = new UsuarioDAO();
+			// usuarioDAO.merge(usuario);
+
+			Messages.addGlobalInfo("Usuario Armazenado com sucesso");
 		} catch (RuntimeException e) {
-			Messages.addFlashGlobalError("Erro ao tentar salvar Usuario");
+			Messages.addGlobalError("Erro ao tentar salvar Usuario");
 			e.printStackTrace();
 		}
 
@@ -139,11 +147,19 @@ public class UsuarioBean implements Serializable {
 		try {
 			usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
 
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
-			usuarioDAO.excluir(usuario);
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", usuario.getCodigo());
 
-			usuarios = usuarioDAO.listar();
-			Messages.addFlashGlobalInfo("Usuario Excluido com sucesso");
+			webTargetExcluir.request().delete();
+
+			usuarios = listarComRetorno();
+
+			// UsuarioDAO usuarioDAO = new UsuarioDAO();
+			// usuarioDAO.excluir(usuario);
+
+			usuarios = listarComRetorno();
+			Messages.addGlobalInfo("Usuario Excluido com sucesso");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar excluir um usuario");
 			e.printStackTrace();

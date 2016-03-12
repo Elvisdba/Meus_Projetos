@@ -66,10 +66,7 @@ public class EstadoBean implements Serializable {
 
 			// listagem
 			// dentro do get vai tipo do retorno
-			String json = webTarget.request().get(String.class);
-			Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
-			estados = Arrays.asList(vetorEstados);
-
+			estados = listaComRetorno();
 			novo();
 
 			Messages.addGlobalInfo("Estado salvo com sucesso");
@@ -149,12 +146,8 @@ public class EstadoBean implements Serializable {
 			//requisicao para deletar
 			webTargetExcluir.request().delete();
 			
-			String json = webTarget.request().get(String.class);
-			
 			//lista
-			Gson gson = new Gson();
-	   	 	Estado[] vetorEstados = gson.fromJson(json, Estado[].class);
-	   	 	estados = Arrays.asList(vetorEstados);
+			estados = listaComRetorno();
 
 			// EstadoDAO estadoDAO = new EstadoDAO();
 			// estadoDAO.excluir(estado);

@@ -85,7 +85,9 @@ public class PessoaBean implements Serializable {
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estados = estadoDAO.listar("nome");
 			
-			cidades = new ArrayList<Cidade>();
+			CidadeBean cidadeBean = new CidadeBean();
+			cidades = cidadeBean.listarComRetorno();
+			
 			
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar cidades");
@@ -118,16 +120,64 @@ public class PessoaBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	 * Metodo de listagem com retorno
+	 * return Pessoa
+	 */
+	public List<Pessoa> listarComRetorno() {
+		try {
+			
+			//usando Cliente
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/pessoa");
+			
+			String json = webTarget.request().get(String.class);
+			
+			Gson gson = new Gson();
+			Pessoa[] vetorPessoas = gson.fromJson(json, Pessoa[].class);
+			pessoas = Arrays.asList(vetorPessoas);
+			
+			
+//			PessoaDAO pessoaDAO = new PessoaDAO();
+//			pessoas = pessoaDAO.listar("nome");
+
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Erro ao tentar listar");
+			e.printStackTrace();
+		}
+		
+		return pessoas;
+	}
+	
+	
+	
+	
 
 	// excluir
 	public void excluir(ActionEvent evento) {
 		try {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 
-			PessoaDAO pessoaDAO = new PessoaDAO();
-			pessoaDAO.excluir(pessoa);
-
-			pessoas = pessoaDAO.listar("nome");
+			//usando service
+			
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/pessoa");
+			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", pessoa.getCodigo());
+			
+			//requisicao para deletar
+			webTargetExcluir.request().delete();
+			
+			String json = webTarget.request().get(String.class);
+			
+			//lista
+			Gson gson = new Gson();
+			Pessoa[] vetorPessoa = gson.fromJson(json, Pessoa[].class);
+			pessoas = Arrays.asList(vetorPessoa);
+			
+//			PessoaDAO pessoaDAO = new PessoaDAO();
+//			pessoaDAO.excluir(pessoa);
+//			pessoas = pessoaDAO.listar("nome");
 
 			Messages.addGlobalInfo("Pessoa removida com sucesso");
 		} catch (RuntimeException e) {
@@ -145,8 +195,11 @@ public class PessoaBean implements Serializable {
 
 			novo();
 
-			CidadeDAO cidadeDAO = new CidadeDAO();
-			cidades = cidadeDAO.listar();
+			CidadeBean cidadeBean = new CidadeBean();
+			cidades = cidadeBean.listarComRetorno();
+			
+//			CidadeDAO cidadeDAO = new CidadeDAO();
+//			cidades = cidadeDAO.listar();
 
 			pessoas = pessoaDAO.listar("nome");
 			Messages.addGlobalInfo("Salvo com sucesso");
@@ -162,10 +215,14 @@ public class PessoaBean implements Serializable {
 			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 			estado = pessoa.getCidada().getEstado();
 			
+			EstadoBean estadoBean = new EstadoBean();
+			estados = estadoBean.listaComRetorno();
 			
-			EstadoDAO estadoDAO = new EstadoDAO();
-			estados = estadoDAO.listar("nome");
 			
+//			EstadoDAO estadoDAO = new EstadoDAO();
+//			estados = estadoDAO.listar("nome");
+			
+			//verificar como utilizar servico
 			CidadeDAO cidadeDAO = new CidadeDAO();
 			cidades = cidadeDAO.buscarPorEstado(estado.getCodigo());
 

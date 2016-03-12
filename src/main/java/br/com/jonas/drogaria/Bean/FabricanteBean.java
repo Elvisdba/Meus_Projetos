@@ -17,7 +17,6 @@ import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
-import br.com.jonas.drogaria.dao.FabricanteDAO;
 import br.com.jonas.drogaria.domain.Fabricante;
 
 @SuppressWarnings("serial")

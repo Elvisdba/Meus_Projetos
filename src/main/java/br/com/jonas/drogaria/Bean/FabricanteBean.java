@@ -66,12 +66,10 @@ public class FabricanteBean implements Serializable {
 			url.request().post(Entity.json(fabricantJson));
 
 			// listagem
-			// dentro do get vai tipo do retorno
-			String json = url.request().get(String.class);
-			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
-			fabricantes = Arrays.asList(vetorFabricantes);
 
+			fabricantes = listarComRetorno();
 			novo();
+			
 			// fabricantes = fabricanteDAO.listar();
 			Messages.addGlobalInfo("Fabricante salvo com sucesso");
 
@@ -148,12 +146,8 @@ public class FabricanteBean implements Serializable {
 			
 			//deleta
 			urlExcluir.request().delete();
-			String json = url.request().get(String.class);
+			fabricantes = listarComRetorno();
 			
-			Gson gson = new Gson();
-			Fabricante[] vetorFabricantes = gson.fromJson(json, Fabricante[].class);
-			fabricantes = Arrays.asList(vetorFabricantes);
-
 			// FabricanteDAO fabricanteDAO = new FabricanteDAO();
 			// fabricanteDAO.excluir(fabricante);
 			// fabricantes = fabricanteDAO.listar();

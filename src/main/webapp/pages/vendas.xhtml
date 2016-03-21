@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Vendas</title>
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+
+	<h:form>
+		<p:panel header="Produtos">
+			<p:dataTable id="tabela" emptyMessage="Nao ha registros cadastrados"
+				paginator="true" value="#{vendaBean.produtos}" var="produto"
+				rows="4">
+
+				<p:column headerText="Descricao" filterBy="#{produto.descricao}"
+					sortBy="#{produto.descricao}">
+					<h:outputText value="#{produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
+					<h:outputText value="#{produto.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Preco" sortBy="#{produto.preco}">
+					<h:outputText value="#{produto.preco}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Fabricante"
+					filterBy="#{produto.fabricante.descricao}"
+					sortBy="#{produto.fabricante.descricao}">
+					<h:outputText value="#{produto.fabricante.descricao}" />
+				</p:column>
+
+
+
+				<p:column headerText="Opcao" width="100">
+					<p:commandButton icon="ui-icon-plus" />
+
+
+				</p:column>
+			</p:dataTable>
+
+
+		</p:panel>
+		<p:panel header="Compras"></p:panel>
+		<p:panel header="Total"></p:panel>
+
+	</h:form>
+
+
+</h:body>
+</html>

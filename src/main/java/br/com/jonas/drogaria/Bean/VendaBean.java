@@ -1,12 +1,14 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -15,6 +17,7 @@ import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
+import br.com.jonas.drogaria.domain.ItemVenda;
 import br.com.jonas.drogaria.domain.Produto;
 
 @SuppressWarnings("serial")
@@ -23,6 +26,17 @@ import br.com.jonas.drogaria.domain.Produto;
 public class VendaBean implements Serializable {
 
 	private List<Produto> produtos;
+	private List<ItemVenda> itemVendas;
+	
+	
+
+	public List<ItemVenda> getItemVendas() {
+		return itemVendas;
+	}
+
+	public void setItemVendas(List<ItemVenda> itemVendas) {
+		this.itemVendas = itemVendas;
+	}
 
 	public List<Produto> getProdutos() {
 		return produtos;
@@ -35,6 +49,8 @@ public class VendaBean implements Serializable {
 	@PostConstruct
 	public void listar() {
 		try {
+			
+			itemVendas = new ArrayList<>();
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
@@ -55,6 +71,17 @@ public class VendaBean implements Serializable {
 			Messages.addGlobalError("Erro ao tentar listar Produtos");
 			e.printStackTrace();
 		}
+	}
+	
+	public void adicionar(ActionEvent evento) {
+		Produto produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
+		
+		ItemVenda itemVenda = new ItemVenda();
+		itemVenda.setProduto(produto);
+		itemVenda.setQuantidade(new Short("1"));
+		itemVenda.setValorParcial(produto.getPreco());
+		
+		itemVendas.add(itemVenda);
 	}
 	
 }

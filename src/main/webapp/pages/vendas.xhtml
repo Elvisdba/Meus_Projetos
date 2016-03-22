@@ -44,7 +44,7 @@
 				<p:column headerText="Opcao" width="100">
 					<p:commandButton icon="ui-icon-plus"
 						actionListener="#{vendaBean.adicionar}"
-						update=":formulario:tabelaCompra">
+						update=":formulario:tabelaCompra :formulario:painelTotal">
 
 						<f:attribute name="produtoSelecionado" value="#{produto}" />
 					</p:commandButton>
@@ -57,7 +57,6 @@
 
 
 		<p:panel header="Compras">
-
 			<p:dataTable id="tabelaCompra"
 				emptyMessage="Nao ha registros cadastrados" paginator="true"
 				value="#{vendaBean.itemVendas}" var="itemVenda" rows="4">
@@ -91,7 +90,7 @@
 				<p:column headerText="Opcao" width="100">
 					<p:commandButton icon="ui-icon-minus"
 						actionListener="#{vendaBean.remover}"
-						update=":formulario:tabelaCompra">
+						update=":formulario:tabelaCompra :formulario:painelTotal">
 						<f:attribute name="itemSelecionado" value="#{itemVenda}" />
 					</p:commandButton>
 				</p:column>
@@ -100,7 +99,18 @@
 
 
 		</p:panel>
-		<p:panel header="Total"></p:panel>
+		<p:panel id="painelTotal" header="Total">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Total: R$ " />
+				<h:outputText value="#{vendaBean.venda.precoTotal}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:outputText>
+
+				<p:commandButton value="Finalizar">
+				</p:commandButton>
+			</h:panelGrid>
+
+		</p:panel>
 
 	</h:form>
 

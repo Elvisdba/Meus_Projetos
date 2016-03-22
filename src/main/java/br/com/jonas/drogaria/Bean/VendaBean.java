@@ -1,6 +1,7 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,12 +77,42 @@ public class VendaBean implements Serializable {
 	public void adicionar(ActionEvent evento) {
 		Produto produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
 		
-		ItemVenda itemVenda = new ItemVenda();
-		itemVenda.setProduto(produto);
-		itemVenda.setQuantidade(new Short("1"));
-		itemVenda.setValorParcial(produto.getPreco());
+		int achou = -1;
+		for (int i = 0; i < itemVendas.size(); i++) {
+			if (itemVendas.get(i).getProduto().equals(produto)) {
+				achou = i;
+			}
+		}
 		
-		itemVendas.add(itemVenda);
+		if (achou < 0) {
+			ItemVenda itemVenda = new ItemVenda();
+			itemVenda.setProduto(produto);
+			itemVenda.setQuantidade(new Short("1"));
+			itemVenda.setValorParcial(produto.getPreco());
+			itemVendas.add(itemVenda);
+		}else {
+			ItemVenda itemVenda = itemVendas.get(achou);
+			itemVenda.setQuantidade(new Short(itemVenda.getQuantidade() + 1 + ""));
+			itemVenda.setValorParcial(produto.getPreco().multiply(new BigDecimal(itemVenda.getQuantidade())));
+		}
+	}
+	
+	
+	public void remover(ActionEvent evento) {
+		ItemVenda itemVenda = (ItemVenda) evento.getComponent().getAttributes().get("itemSelecionado");
+		
+		int achou = -1;
+		for (int i = 0; i < itemVendas.size(); i++) {
+			if (itemVendas.get(i).getProduto().equals(itemVenda.getProduto())) {
+				achou = i;
+			}
+		}
+		
+		if (achou > -1) {
+			itemVendas.remove(achou);
+		}
+		
+		
 	}
 	
 }

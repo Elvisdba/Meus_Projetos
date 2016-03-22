@@ -20,16 +20,26 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.ItemVenda;
 import br.com.jonas.drogaria.domain.Produto;
+import br.com.jonas.drogaria.domain.Venda;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @SessionScoped
 public class VendaBean implements Serializable {
-
+	private Venda venda;
 	private List<Produto> produtos;
 	private List<ItemVenda> itemVendas;
 	
 	
+	
+
+	public Venda getVenda() {
+		return venda;
+	}
+
+	public void setVenda(Venda venda) {
+		this.venda = venda;
+	}
 
 	public List<ItemVenda> getItemVendas() {
 		return itemVendas;
@@ -52,6 +62,8 @@ public class VendaBean implements Serializable {
 		try {
 			
 			itemVendas = new ArrayList<>();
+			venda = new Venda();
+			venda.setPrecoTotal(new BigDecimal("0"));
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
@@ -95,6 +107,8 @@ public class VendaBean implements Serializable {
 			itemVenda.setQuantidade(new Short(itemVenda.getQuantidade() + 1 + ""));
 			itemVenda.setValorParcial(produto.getPreco().multiply(new BigDecimal(itemVenda.getQuantidade())));
 		}
+		
+		calcular();
 	}
 	
 	
@@ -112,7 +126,16 @@ public class VendaBean implements Serializable {
 			itemVendas.remove(achou);
 		}
 		
+		calcular();
+	}
+	
+	public void calcular() {
+		venda.setPrecoTotal(new BigDecimal("0.00"));
 		
+		for (int i = 0; i < itemVendas.size(); i++) {
+			ItemVenda itemVenda = itemVendas.get(i);
+			venda.setPrecoTotal(venda.getPrecoTotal().add(itemVenda.getValorParcial()));
+		}
 	}
 	
 }

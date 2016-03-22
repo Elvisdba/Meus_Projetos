@@ -89,9 +89,11 @@
 
 
 				<p:column headerText="Opcao" width="100">
-					<p:commandButton icon="ui-icon-minus" />
-
-
+					<p:commandButton icon="ui-icon-minus"
+						actionListener="#{vendaBean.remover}"
+						update=":formulario:tabelaCompra">
+						<f:attribute name="itemSelecionado" value="#{itemVenda}" />
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 

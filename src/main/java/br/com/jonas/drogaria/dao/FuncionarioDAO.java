@@ -1,7 +1,33 @@
 package br.com.jonas.drogaria.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+
 import br.com.jonas.drogaria.domain.Funcionario;
+import br.com.jonas.drogaria.util.HibernateUtil;
 
 public class FuncionarioDAO extends GenericDAO<Funcionario> {
+
+	@SuppressWarnings("unchecked")
+	public List<Funcionario> listarOrdenado() {
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+
+		try {
+			Criteria consulta = sessao.createCriteria(Funcionario.class);
+			consulta.createAlias("pessoa", "p");
+			consulta.addOrder(Order.asc("p.nome"));
+			List<Funcionario> resultado = consulta.list();
+			return resultado;
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			sessao.close();
+		}
+
+	}
 
 }

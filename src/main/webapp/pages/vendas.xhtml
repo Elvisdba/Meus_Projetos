@@ -106,13 +106,49 @@
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 				</h:outputText>
 
-				<p:commandButton value="Finalizar">
-				</p:commandButton>
+				<p:commandButton value="Finalizar"
+					oncomplete="PF('dialogo').show();"
+					actionListener="#{vendaBean.finalizar}"
+					update=":mensagem :formularioFinalizar:painelFinalizar" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+
+	<p:dialog header="Finalizar Venda" widgetVar="dialogo"
+		resizable="false" modal="true">
+		<h:form id="formularioFinalizar">
+			<h:panelGrid id="painelFinalizar" columns="2">
+				<p:outputLabel value="Funcionario: " />
+				<p:selectOneMenu value="#{vendaBean.venda.funcionario}"
+					converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um Funcionario" />
+					<f:selectItems value="#{vendaBean.funcionarios}" var="funcionario"
+						itemValue="#{funcionario}"
+						itemLabel="#{funcionario.pessoa.nome} - #{funcionario.pessoa.cpf}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Cliente: " />
+				<p:selectOneMenu value="#{vendaBean.venda.cliente}"
+					converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um Cliente" />
+					<f:selectItems value="#{vendaBean.clientes}" var="cliente"
+						itemValue="#{cliente}"
+						itemLabel="#{cliente.pessoa.nome} - #{cliente.pessoa.cpf}" />
+				</p:selectOneMenu>
+
+
 			</h:panelGrid>
 
-		</p:panel>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 
-	</h:form>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
 
 
 </h:body>

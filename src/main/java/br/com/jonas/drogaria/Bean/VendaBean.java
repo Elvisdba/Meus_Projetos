@@ -18,6 +18,10 @@ import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
+import br.com.jonas.drogaria.dao.ClienteDAO;
+import br.com.jonas.drogaria.dao.FuncionarioDAO;
+import br.com.jonas.drogaria.domain.Cliente;
+import br.com.jonas.drogaria.domain.Funcionario;
 import br.com.jonas.drogaria.domain.ItemVenda;
 import br.com.jonas.drogaria.domain.Produto;
 import br.com.jonas.drogaria.domain.Venda;
@@ -29,9 +33,24 @@ public class VendaBean implements Serializable {
 	private Venda venda;
 	private List<Produto> produtos;
 	private List<ItemVenda> itemVendas;
-	
-	
-	
+	private List<Cliente> clientes;
+	private List<Funcionario> funcionarios;
+
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
 
 	public Venda getVenda() {
 		return venda;
@@ -56,86 +75,99 @@ public class VendaBean implements Serializable {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
+
 	@PostConstruct
 	public void listar() {
 		try {
-			
+
 			itemVendas = new ArrayList<>();
 			venda = new Venda();
 			venda.setPrecoTotal(new BigDecimal("0"));
-			
-			//usando service
+
+			// usando service
 			Client client = ClientBuilder.newClient();
 			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
-			
+
 			String json = webTarget.request().get(String.class);
-			
+
 			Gson gson = new Gson();
 			Produto[] vetorProduto = gson.fromJson(json, Produto[].class);
 			produtos = Arrays.asList(vetorProduto);
-			
 
-			
-//			ProdutoDAO produtoDAO = new ProdutoDAO();
-//			produtos = produtoDAO.listar();
+			// ProdutoDAO produtoDAO = new ProdutoDAO();
+			// produtos = produtoDAO.listar();
 
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar Produtos");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void adicionar(ActionEvent evento) {
 		Produto produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
-		
+
 		int achou = -1;
 		for (int i = 0; i < itemVendas.size(); i++) {
 			if (itemVendas.get(i).getProduto().equals(produto)) {
 				achou = i;
 			}
 		}
-		
+
 		if (achou < 0) {
 			ItemVenda itemVenda = new ItemVenda();
 			itemVenda.setProduto(produto);
 			itemVenda.setQuantidade(new Short("1"));
 			itemVenda.setValorParcial(produto.getPreco());
 			itemVendas.add(itemVenda);
-		}else {
+		} else {
 			ItemVenda itemVenda = itemVendas.get(achou);
 			itemVenda.setQuantidade(new Short(itemVenda.getQuantidade() + 1 + ""));
 			itemVenda.setValorParcial(produto.getPreco().multiply(new BigDecimal(itemVenda.getQuantidade())));
 		}
-		
+
 		calcular();
 	}
-	
-	
+
 	public void remover(ActionEvent evento) {
 		ItemVenda itemVenda = (ItemVenda) evento.getComponent().getAttributes().get("itemSelecionado");
-		
+
 		int achou = -1;
 		for (int i = 0; i < itemVendas.size(); i++) {
 			if (itemVendas.get(i).getProduto().equals(itemVenda.getProduto())) {
 				achou = i;
 			}
 		}
-		
+
 		if (achou > -1) {
 			itemVendas.remove(achou);
 		}
-		
+
 		calcular();
 	}
-	
+
 	public void calcular() {
 		venda.setPrecoTotal(new BigDecimal("0.00"));
-		
+
 		for (int i = 0; i < itemVendas.size(); i++) {
 			ItemVenda itemVenda = itemVendas.get(i);
 			venda.setPrecoTotal(venda.getPrecoTotal().add(itemVenda.getValorParcial()));
 		}
 	}
 	
+	public void finalizar() {
+		
+		try {
+			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+			funcionarios = funcionarioDAO.listarOrdenado();
+			
+			ClienteDAO clienteDAO = new ClienteDAO();
+			clientes = clienteDAO.listarOrdenado();
+			
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Nao foi possivel buscar o funcionario");
+			e.printStackTrace();
+		}
+		
+	}
+
 }

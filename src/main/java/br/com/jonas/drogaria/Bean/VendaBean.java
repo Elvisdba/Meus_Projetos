@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,8 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.dao.ClienteDAO;
 import br.com.jonas.drogaria.dao.FuncionarioDAO;
+import br.com.jonas.drogaria.dao.ProdutoDAO;
+import br.com.jonas.drogaria.dao.VendaDAO;
 import br.com.jonas.drogaria.domain.Cliente;
 import br.com.jonas.drogaria.domain.Funcionario;
 import br.com.jonas.drogaria.domain.ItemVenda;
@@ -74,6 +77,24 @@ public class VendaBean implements Serializable {
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
+	}
+	
+	@PostConstruct
+	public void novo(){
+		
+		try {
+			venda = new Venda();
+			venda.setPrecoTotal(new BigDecimal("0.00"));
+			
+			itemVendas = new ArrayList<>();
+			
+			ProdutoDAO produtoDAO = new ProdutoDAO();
+			produtos = produtoDAO.listar("descricao");
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("erro ao tentar carregar a tela de vendas");
+			e.printStackTrace();
+		}
+		
 	}
 
 	@PostConstruct
@@ -153,21 +174,47 @@ public class VendaBean implements Serializable {
 			venda.setPrecoTotal(venda.getPrecoTotal().add(itemVenda.getValorParcial()));
 		}
 	}
-	
+
 	public void finalizar() {
-		
+
 		try {
+
+			venda.setHorario(new Date());
+			venda.setCliente(null);
+			venda.setFuncionario(null);
+
 			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 			funcionarios = funcionarioDAO.listarOrdenado();
-			
+
 			ClienteDAO clienteDAO = new ClienteDAO();
 			clientes = clienteDAO.listarOrdenado();
-			
+
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Nao foi possivel buscar o funcionario");
 			e.printStackTrace();
 		}
+
+	}
+	
+	public void salvar() {
 		
+		try {
+			//signum converte bigdecimal para numero sem virgula
+			if (venda.getPrecoTotal().signum() == 0) {
+				Messages.addFlashGlobalInfo("informe pelo menos um item para venda");
+				return;
+			}
+			
+			VendaDAO vendaDAO = new VendaDAO();
+			vendaDAO.salvar(venda, itemVendas);
+			
+			novo();
+			
+			Messages.addGlobalInfo("Venda salva com sucesso");
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("erro ao tentar salva a venda");
+			System.out.println(e);
+		}
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package br.com.jonas.drogaria.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -13,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import br.com.jonas.drogaria.dao.ClienteDAO;
 import br.com.jonas.drogaria.domain.Cliente;
@@ -94,10 +96,18 @@ public class ClienteService {
 		Gson gson = new Gson();
 		Cliente cliente = gson.fromJson(json, Cliente.class);
 
-		ClienteDAO clienteDAO = new ClienteDAO();
+		ClienteDAO clienteDAO = new ClienteDAO();	
 		clienteDAO.salvar(cliente);
 
 		String clienteJson = gson.toJson(cliente);
+		
+//		Gson gson = new GsonBuilder().setDateFormat("MM-dd-yyyy").create();
+//		Cliente cliente = gson.fromJson(json, Cliente.class);
+//		
+//		ClienteDAO clienteDAO = new ClienteDAO();	
+//		clienteDAO.salvar(cliente);
+//		
+//		String clienteJson = gson.toJson(cliente);
 
 		return clienteJson;
 

@@ -12,14 +12,17 @@
 </h:head>
 <h:body>
 
-	<h:form>
-		<div id="geral">
-			<div id="topo" class="divTopo">
-				<p:graphicImage library="images" name="drugstore.png"
-					styleClass="imagemCentralizada" />
-			</div>
+	<p:growl id="mensagem" />
 
-			<div id="cabecalho">
+	<div id="geral">
+		<div id="topo" class="divTopo">
+			<p:graphicImage library="images" name="drugstore.png"
+				styleClass="imagemCentralizada" />
+		</div>
+
+		<div id="cabecalho" class="divCabecalho">
+			<h:form id="formMenu">
+
 				<p:menubar>
 					<p:submenu label="Arquivo">
 						<p:menuitem value="Sair" />
@@ -44,11 +47,14 @@
 					</p:submenu>
 
 				</p:menubar>
-			</div>
-
-			<div id="conteudo"></div>
+			</h:form>
 		</div>
-	</h:form>
+
+		<div id="conteudo">
+			<ui:insert name="conteudo" />
+		</div>
+	</div>
+
 
 </h:body>
 </html>

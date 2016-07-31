@@ -55,7 +55,7 @@ public class EstadoBean implements Serializable {
 
 			// chamada a service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/estado");
 
 			Gson gson = new Gson();
 			String estadoJson = gson.toJson(estado);
@@ -86,7 +86,7 @@ public class EstadoBean implements Serializable {
 
 			// chamada a Service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarger = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarger = client.target("http://localhost:8080/Drogaria/rest/estado");
 
 			// dentro do get vai tipo do retorno
 			String json = webTarger.request().get(String.class);
@@ -114,7 +114,7 @@ public class EstadoBean implements Serializable {
 
 			// chamada a Service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/estado");
 
 			// dentro do get vai tipo do retorno
 			String json = webTarget.request().get(String.class);
@@ -140,7 +140,7 @@ public class EstadoBean implements Serializable {
 			// usando servico
 			Client client = ClientBuilder.newClient();
 
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/estado");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/estado");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", estado.getCodigo());
 			
 			//requisicao para deletar

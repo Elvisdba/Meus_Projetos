@@ -75,21 +75,21 @@ public class ClienteBean implements Serializable {
 			
 			//verificar Gson com tipos Data
 			
-//			//usando service
-//			Client client = ClientBuilder.newClient();
-//			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cliente");
-//			
-//			//metodo get pega o retorno
-//			String clienteJson = webTarget.request().get(String.class);
-//			
-//			Gson gson = new Gson();
-//			Cliente[] vetorClientes = gson.fromJson(clienteJson, Cliente[].class);
-//			clientes = Arrays.asList(vetorClientes);
+			//usando service
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cliente");
+
+			//metodo get pega o retorno
+			String clienteJson = webTarget.request().get(String.class);
+
+			Gson gson = new Gson();
+			Cliente[] vetorClientes = gson.fromJson(clienteJson, Cliente[].class);
+			clientes = Arrays.asList(vetorClientes);
 			
 			
 			
-			ClienteDAO clienteDAO = new ClienteDAO();
-			clientes = clienteDAO.listar();
+//			ClienteDAO clienteDAO = new ClienteDAO();
+//			clientes = clienteDAO.listar();
 			
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Erro ao tentar listar clientes");

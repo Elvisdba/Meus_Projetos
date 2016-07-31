@@ -1,133 +1,131 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Cidades</title>
-</h:head>
-<h:body>
-	<p:growl id="mensagem" />
+	xmlns:p="http://primefaces.org/ui" template="/templates/modelo.xhtml">
 
-	<!-- Listagem de Cidades -->
-	<h:form id="formListagem">
-		<p:panel header="Cidades - Listagem">
-			<p:dataTable id="tabela" emptyMessage="Nao ha resistros cadastrados"
-				paginator="true" value="#{cidadeBean.cidades}" var="cidade"
-				rows="10">
+	<ui:define name="conteudo">
 
-				<f:facet name="footer">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
-						actionListener="#{cidadeBean.novo}"
-						update=":mensagem :formCadastro:panelGridCadastro">
+		<!-- Listagem de Cidades -->
+		<h:form id="formListagem">
+			<p:panel header="Cidades - Listagem">
+				<p:dataTable id="tabela" emptyMessage="Nao ha resistros cadastrados"
+					paginator="true" value="#{cidadeBean.cidades}" var="cidade"
+					rows="10">
 
-						<!-- reset do ajax -->
-						<f:actionListener
-							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-					</p:commandButton>
-				</f:facet>
+					<f:facet name="footer">
+						<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+							actionListener="#{cidadeBean.novo}"
+							update=":mensagem :formCadastro:panelGridCadastro">
 
-				<p:column headerText="Nome: " filterBy="#{cidade.nome}"
-					sortBy="#{cidade.nome}">
-					<h:outputText value="#{cidade.nome}" />
-				</p:column>
+							<!-- reset do ajax -->
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>
 
-				<p:column headerText="Estado: " filterBy="#{cidade.estado.nome}"
-					sortBy="#{cidade.estado.nome}">
-					<h:outputText value="#{cidade.estado.nome}" />
-					<h:outputText value=" - " />
-					<h:outputText value="#{cidade.estado.sigla}" />
-				</p:column>
+					<p:column headerText="Nome: " filterBy="#{cidade.nome}"
+						sortBy="#{cidade.nome}">
+						<h:outputText value="#{cidade.nome}" />
+					</p:column>
 
-				<p:column headerText="Opcao: " width="100">
+					<p:column headerText="Estado: " filterBy="#{cidade.estado.nome}"
+						sortBy="#{cidade.estado.nome}">
+						<h:outputText value="#{cidade.estado.nome}" />
+						<h:outputText value=" - " />
+						<h:outputText value="#{cidade.estado.sigla}" />
+					</p:column>
 
-					<!-- botao excluir -->
-					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{cidadeBean.excluir}"
-						update=":mensagem :formListagem:tabela">
+					<p:column headerText="Opcao: " width="100">
 
-						<p:confirm header="Confirmacao" message="Deseja excluir?"
-							icon="ui-icon-alert" />
+						<!-- botao excluir -->
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{cidadeBean.excluir}"
+							update=":mensagem :formListagem:tabela">
 
-						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
-					</p:commandButton>
+							<p:confirm header="Confirmacao" message="Deseja excluir?"
+								icon="ui-icon-alert" />
+
+							<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+						</p:commandButton>
 
 
-					<!-- botao editar -->
-					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{cidadeBean.editar}"
-						update=":mensagem :formCadastro:panelGridCadastro"
-						oncomplete="PF('dialogo').show();">
-						
-						<!-- reset do ajax -->
-						<f:actionListener
-							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						<!-- botao editar -->
+						<p:commandButton icon="ui-icon-pencil"
+							actionListener="#{cidadeBean.editar}"
+							update=":mensagem :formCadastro:panelGridCadastro"
+							oncomplete="PF('dialogo').show();">
 
-						<!-- pega cidade selecionada e envia para o bean -->
-						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
-					</p:commandButton>
+							<!-- reset do ajax -->
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
-				</p:column>
-			</p:dataTable>
+							<!-- pega cidade selecionada e envia para o bean -->
+							<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+						</p:commandButton>
 
-
-			<!-- Janela de confimacao para excluir -->
-			<p:confirmDialog global="true" showEffect="fade">
-				<p:commandButton value="Sim" type="button"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-
-				<p:commandButton value="Nao" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-check" />
-			</p:confirmDialog>
-		</p:panel>
-	</h:form>
+					</p:column>
+				</p:dataTable>
 
 
+				<!-- Janela de confimacao para excluir -->
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 
-
-	<!-- Ao clicar no botao novo -->
-	<p:dialog header="Cidades - Cadastro" widgetVar="dialogo"
-		resizable="false" modal="true">
-
-		<h:form id="formCadastro">
-			<h:panelGrid id="panelGridCadastro" columns="2">
-			
-				<p:outputLabel for="nomeID" value="Nome: " />
-				<p:inputText id="nomeID" maxlength="50" size="30" required="true"
-					requiredMessage="O campo 'Nome' é Obrigatorio"
-					value="#{cidadeBean.cidade.nome}" />
-
-
-				<p:outputLabel for="estadoID" value="Estado: " />
-				<p:selectOneMenu id="estadoID" filter="true"
-					value="#{cidadeBean.cidade.estado}"
-					converter="omnifaces.SelectItemsConverter" required="true"
-					requiredMessage="O campo 'Estado' é Obrigatorio">
-
-					<f:selectItem noSelectionOption="true"
-						itemLabel="Selecione um estado" />
-
-					<f:selectItems value="#{cidadeBean.estados}" var="estado"
-						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
-
-				</p:selectOneMenu>
-			</h:panelGrid>
-
-			<!-- Botoes -->
-			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar"
-					actionListener="#{cidadeBean.salvar()}"
-					update=":mensagem :formCadastro:panelGridCadastro :formListagem:tabela" />
-				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-			</h:panelGrid>
-
-
+					<p:commandButton value="Nao" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-check" />
+				</p:confirmDialog>
+			</p:panel>
 		</h:form>
-	</p:dialog>
 
 
-</h:body>
-</html>
+
+
+		<!-- Ao clicar no botao novo -->
+		<p:dialog header="Cidades - Cadastro" widgetVar="dialogo"
+			resizable="false" modal="true">
+
+			<h:form id="formCadastro">
+				<h:panelGrid id="panelGridCadastro" columns="2">
+
+					<p:outputLabel for="nomeID" value="Nome: " />
+					<p:inputText id="nomeID" maxlength="50" size="30" required="true"
+						requiredMessage="O campo 'Nome' é Obrigatorio"
+						value="#{cidadeBean.cidade.nome}" />
+
+
+					<p:outputLabel for="estadoID" value="Estado: " />
+					<p:selectOneMenu id="estadoID" filter="true"
+						value="#{cidadeBean.cidade.estado}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="O campo 'Estado' é Obrigatorio">
+
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um estado" />
+
+						<f:selectItems value="#{cidadeBean.estados}" var="estado"
+							itemValue="#{estado}"
+							itemLabel="#{estado.nome} - #{estado.sigla}" />
+
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<!-- Botoes -->
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{cidadeBean.salvar()}"
+						update=":mensagem :formCadastro:panelGridCadastro :formListagem:tabela" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+
+
+			</h:form>
+		</p:dialog>
+	</ui:define>
+
+
+</ui:composition>

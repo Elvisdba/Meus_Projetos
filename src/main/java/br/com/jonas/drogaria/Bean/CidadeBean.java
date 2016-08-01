@@ -74,7 +74,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
 			
 			// dentro do get vai tipo do retorno
 			String json = webTarget.request().get(String.class);
@@ -101,7 +101,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
 			
 			String json = webTarget.request().get(String.class);
 			
@@ -126,7 +126,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
 			
 			Gson gson = new Gson();
 			String cidadeJson = gson.toJson(cidade);
@@ -160,7 +160,7 @@ public class CidadeBean implements Serializable {
 
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", cidade.getCodigo());
 			
 			//requisicao para deletar

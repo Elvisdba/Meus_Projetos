@@ -1,114 +1,113 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Fabricante</title>
-</h:head>
-<h:body>
+	xmlns:p="http://primefaces.org/ui" template="/templates/modelo.xhtml">
 
-	<p:growl id="mensagem" />
 
-	<!-- Listagem de Fabricantes -->
-	<h:form id="formListagem">
-		<p:panel header="Fabricante - Listagem">
-			<p:dataTable id="tabela" emptyMessage="Nao a registros cadastrado"
-				paginator="true" value="#{fabricanteBean.fabricantes}"
-				var="fabricante" rows="10">
+	<ui:define name="conteudo">
 
-				<f:facet name="footer">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
-						actionListener="#{fabricanteBean.novo}"
-						update=":formCadastro:panelGridCadastro">
+		<!-- Listagem de Fabricantes -->
+		<h:form id="formListagem">
+			<p:panel header="Fabricante - Listagem">
+				<p:dataTable id="tabela" emptyMessage="Nao a registros cadastrado"
+					paginator="true" value="#{fabricanteBean.fabricantes}"
+					var="fabricante" rows="10" paginatorPosition="bottom">
 
-						<!-- reset do ajax -->
-						<f:actionListener
-							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					<f:facet name="footer">
+						<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+							actionListener="#{fabricanteBean.novo}"
+							update=":formCadastro:panelGridCadastro">
 
-					</p:commandButton>
-				</f:facet>
+							<!-- reset do ajax -->
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
-				<p:column headerText="Descricao do Fabricante: "
-					sortBy="#{fabricante.descricao}" filterBy="#{fabricante.descricao}">
-					<h:outputText value="#{fabricante.descricao}" />
-				</p:column>
+						</p:commandButton>
+					</f:facet>
+
+					<p:column headerText="Descricao do Fabricante: "
+						sortBy="#{fabricante.descricao}"
+						filterBy="#{fabricante.descricao}">
+						<h:outputText value="#{fabricante.descricao}" />
+					</p:column>
 
 
 
 
 
-				<p:column headerText="Opcao: " width="100">
+					<p:column headerText="Opcao: " width="100">
 
-					<!-- Botao excluir -->
-					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{fabricanteBean.excluir}"
-						update=":mensagem :formListagem:tabela">
-						<p:confirm header="Confirmaçao" message="Deseja excluir?"
-							icon="ui-icon-alert" />
+						<!-- Botao excluir -->
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{fabricanteBean.excluir}"
+							update=":mensagem :formListagem:tabela">
+							<p:confirm header="Confirmaçao" message="Deseja excluir?"
+								icon="ui-icon-alert" />
 
-						<!-- pega fabricante selecionado e envia para o bean -->
-						<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
+							<!-- pega fabricante selecionado e envia para o bean -->
+							<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
 
-					</p:commandButton>
+						</p:commandButton>
 
-					<!-- Botao editar -->
-					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{fabricanteBean.editar}"
-						update=":formCadastro:panelGridCadastro"
-						oncomplete="PF('dialogo').show();">
+						<!-- Botao editar -->
+						<p:commandButton icon="ui-icon-pencil"
+							actionListener="#{fabricanteBean.editar}"
+							update=":formCadastro:panelGridCadastro"
+							oncomplete="PF('dialogo').show();">
 
-						<!-- reset do ajax -->
-						<f:actionListener
-							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+							<!-- reset do ajax -->
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 
-						<!-- pega fabricante selecionado e envia para o bean -->
-						<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
+							<!-- pega fabricante selecionado e envia para o bean -->
+							<f:attribute name="fabricanteSelecionado" value="#{fabricante}" />
 
-					</p:commandButton>
-
-
-				</p:column>
-			</p:dataTable>
-
-			<!-- Janela de confimacao para exclusao -->
-			<p:confirmDialog global="true" showEffect="fade">
-				<p:commandButton value="Sim" type="button"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				<p:commandButton value="Nao" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-			</p:confirmDialog>
-		</p:panel>
-	</h:form>
+						</p:commandButton>
 
 
-	<!-- Ao clicar no botao Novo -->
-	<p:dialog header="Fabricantes - Cadastro" resizable="false"
-		widgetVar="dialogo" modal="true">
+					</p:column>
+				</p:dataTable>
 
-		<!-- Campo de texto -->
-		<h:form id="formCadastro">
-			<h:panelGrid columns="2" id="panelGridCadastro">
-
-				<p:outputLabel for="descricaoID" value="Descricao do Fabricante: " />
-				<p:inputText id="descricaoID" maxlength="50" size="30"
-					required="true"
-					requiredMessage="O campo 'Descricao do Fabricante' é obrigatorio"
-					value="#{fabricanteBean.fabricante.descricao}" />
-			</h:panelGrid>
-
-			<!-- Botao salvar -->
-			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar"
-					actionListener="#{fabricanteBean.salvar}"
-					update=":mensagem :formCadastro:panelGridCadastro :formListagem:tabela" />
-				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-			</h:panelGrid>
+				<!-- Janela de confimacao para exclusao -->
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Nao" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
 		</h:form>
 
-	</p:dialog>
-</h:body>
-</html>
+
+		<!-- Ao clicar no botao Novo -->
+		<p:dialog header="Fabricantes - Cadastro" resizable="false"
+			widgetVar="dialogo" modal="true">
+
+			<!-- Campo de texto -->
+			<h:form id="formCadastro">
+				<h:panelGrid columns="2" id="panelGridCadastro">
+
+					<p:outputLabel for="descricaoID" value="Descricao do Fabricante: " />
+					<p:inputText id="descricaoID" maxlength="50" size="30"
+						required="true"
+						requiredMessage="O campo 'Descricao do Fabricante' é obrigatorio"
+						value="#{fabricanteBean.fabricante.descricao}" />
+				</h:panelGrid>
+
+				<!-- Botao salvar -->
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{fabricanteBean.salvar}"
+						update=":mensagem :formCadastro:panelGridCadastro :formListagem:tabela" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>

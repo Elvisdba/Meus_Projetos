@@ -56,7 +56,7 @@ public class FabricanteBean implements Serializable {
 
 			// service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			WebTarget url = client.target("http://localhost:8080/Drogaria/rest/fabricante");
 
 			Gson gson = new Gson();
 			String fabricantJson = gson.toJson(fabricante);
@@ -90,7 +90,7 @@ public class FabricanteBean implements Serializable {
 
 			// chama um service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			WebTarget url = client.target("http://localhost:8080/Drogaria/rest/fabricante");
 
 			// dentro do get vai tipo do retorno
 			String json = url.request().get(String.class);
@@ -114,7 +114,7 @@ public class FabricanteBean implements Serializable {
 
 			// chama um service
 			Client client = ClientBuilder.newClient();
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			WebTarget url = client.target("http://localhost:8080/Drogaria/rest/fabricante");
 
 			// dentro do get vai tipo do retorno
 			String json = url.request().get(String.class);
@@ -141,7 +141,7 @@ public class FabricanteBean implements Serializable {
 			// usando um service
 			Client client = ClientBuilder.newClient();
 			// converte {codigo} em um valor valido
-			WebTarget url = client.target("http://localhost:8081/Drogaria/rest/fabricante");
+			WebTarget url = client.target("http://localhost:8080/Drogaria/rest/fabricante");
 			WebTarget urlExcluir = url.path("{codigo}").resolveTemplate("codigo", fabricante.getCodigo());
 			
 			//deleta

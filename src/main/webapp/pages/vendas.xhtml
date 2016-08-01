@@ -1,179 +1,178 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Vendas</title>
-</h:head>
-<h:body>
-	<p:growl id="mensagem" />
+	xmlns:p="http://primefaces.org/ui" template="/templates/modelo.xhtml">
 
-	<h:form id="formulario">
-		<p:panel header="Produtos">
-			<p:dataTable id="tabelaProduto"
-				emptyMessage="Nao ha registros cadastrados" paginator="true"
-				value="#{vendaBean.produtos}" var="produto" rows="4"
-				paginatorPosition="bottom">
+	<ui:define name="conteudo">
 
-				<p:column headerText="Descricao" filterBy="#{produto.descricao}"
-					sortBy="#{produto.descricao}">
-					<h:outputText value="#{produto.descricao}" />
-				</p:column>
 
-				<p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
-					<h:outputText value="#{produto.quantidade}" />
-				</p:column>
+		<h:form id="formulario">
+			<p:panel header="Produtos">
+				<p:dataTable id="tabelaProduto"
+					emptyMessage="Nao ha registros cadastrados" paginator="true"
+					value="#{vendaBean.produtos}" var="produto" rows="4"
+					paginatorPosition="bottom">
 
-				<p:column headerText="Preco" sortBy="#{produto.preco}">
-					<h:outputText value="#{produto.preco}">
+					<p:column headerText="Descricao" filterBy="#{produto.descricao}"
+						sortBy="#{produto.descricao}">
+						<h:outputText value="#{produto.descricao}" />
+					</p:column>
+
+					<p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
+						<h:outputText value="#{produto.quantidade}" />
+					</p:column>
+
+					<p:column headerText="Preco" sortBy="#{produto.preco}">
+						<h:outputText value="#{produto.preco}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Fabricante"
+						filterBy="#{produto.fabricante.descricao}"
+						sortBy="#{produto.fabricante.descricao}">
+						<h:outputText value="#{produto.fabricante.descricao}" />
+					</p:column>
+
+
+
+					<p:column headerText="Opcao" width="100">
+						<p:commandButton icon="ui-icon-plus"
+							actionListener="#{vendaBean.adicionar}"
+							update=":formulario:tabelaCompra :formulario:painelTotal">
+
+							<f:attribute name="produtoSelecionado" value="#{produto}" />
+						</p:commandButton>
+
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+
+
+			<p:panel header="Compras">
+				<p:dataTable id="tabelaCompra"
+					emptyMessage="Nao ha registros cadastrados" paginator="true"
+					value="#{vendaBean.itemVendas}" var="itemVenda" rows="4"
+					paginatorPosition="bottom">
+
+					<p:column headerText="Descricao"
+						filterBy="#{itemVenda.produto.descricao}"
+						sortBy="#{itemVenda.produto.descricao}">
+						<h:outputText value="#{itemVenda.produto.descricao}" />
+					</p:column>
+
+
+					<p:column headerText="Valor Unitario">
+						<h:outputText value="#{itemVenda.produto.preco}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Quantidade Comprada">
+						<h:outputText value="#{itemVenda.quantidade}" />
+					</p:column>
+
+					<p:column headerText="Preco Parcial">
+						<h:outputText value="#{itemVenda.valorParcial}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+						</h:outputText>
+
+					</p:column>
+
+
+
+					<p:column headerText="Opcao" width="100">
+						<p:commandButton icon="ui-icon-minus"
+							actionListener="#{vendaBean.remover}"
+							update=":formulario:tabelaCompra :formulario:painelTotal">
+							<f:attribute name="itemSelecionado" value="#{itemVenda}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+
+
+			</p:panel>
+			<p:panel id="painelTotal" header="Total">
+				<h:panelGrid id="painelFinalizacao" columns="3">
+					<p:outputLabel value="Total: R$ " />
+					<h:outputText value="#{vendaBean.venda.precoTotal}">
 						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 					</h:outputText>
-				</p:column>
 
-				<p:column headerText="Fabricante"
-					filterBy="#{produto.fabricante.descricao}"
-					sortBy="#{produto.fabricante.descricao}">
-					<h:outputText value="#{produto.fabricante.descricao}" />
-				</p:column>
-
-
-
-				<p:column headerText="Opcao" width="100">
-					<p:commandButton icon="ui-icon-plus"
-						actionListener="#{vendaBean.adicionar}"
-						update=":formulario:tabelaCompra :formulario:painelTotal">
-
-						<f:attribute name="produtoSelecionado" value="#{produto}" />
+					<p:commandButton value="Finalizar"
+						oncomplete="PF('dialogo').show();"
+						actionListener="#{vendaBean.finalizar}"
+						update=":mensagem :formularioFinalizar:painelFinalizar">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
-
-
-				</p:column>
-			</p:dataTable>
-		</p:panel>
-
-
-
-		<p:panel header="Compras">
-			<p:dataTable id="tabelaCompra"
-				emptyMessage="Nao ha registros cadastrados" paginator="true"
-				value="#{vendaBean.itemVendas}" var="itemVenda" rows="4"
-				paginatorPosition="bottom">
-
-				<p:column headerText="Descricao"
-					filterBy="#{itemVenda.produto.descricao}"
-					sortBy="#{itemVenda.produto.descricao}">
-					<h:outputText value="#{itemVenda.produto.descricao}" />
-				</p:column>
-
-
-				<p:column headerText="Valor Unitario">
-					<h:outputText value="#{itemVenda.produto.preco}">
-						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Quantidade Comprada">
-					<h:outputText value="#{itemVenda.quantidade}" />
-				</p:column>
-
-				<p:column headerText="Preco Parcial">
-					<h:outputText value="#{itemVenda.valorParcial}">
-						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
-					</h:outputText>
-
-				</p:column>
-
-
-
-				<p:column headerText="Opcao" width="100">
-					<p:commandButton icon="ui-icon-minus"
-						actionListener="#{vendaBean.remover}"
-						update=":formulario:tabelaCompra :formulario:painelTotal">
-						<f:attribute name="itemSelecionado" value="#{itemVenda}" />
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
-
-
-
-		</p:panel>
-		<p:panel id="painelTotal" header="Total">
-			<h:panelGrid id="painelFinalizacao" columns="3">
-				<p:outputLabel value="Total: R$ " />
-				<h:outputText value="#{vendaBean.venda.precoTotal}">
-					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
-				</h:outputText>
-
-				<p:commandButton value="Finalizar"
-					oncomplete="PF('dialogo').show();"
-					actionListener="#{vendaBean.finalizar}"
-					update=":mensagem :formularioFinalizar:painelFinalizar">
-					<f:actionListener
-						type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-				</p:commandButton>
-			</h:panelGrid>
-		</p:panel>
-	</h:form>
-
-
-	<p:dialog header="Finalizar Venda" widgetVar="dialogo"
-		resizable="false" modal="true">
-		<h:form id="formularioFinalizar">
-			<h:panelGrid id="painelFinalizar" columns="2">
-				<p:outputLabel value="Total" />
-				<h:outputText value="#{vendaBean.venda.precoTotal}">
-					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
-				</h:outputText>
-
-				<p:outputLabel value="Horario: " />
-				<h:outputText value="#{vendaBean.venda.horario}">
-					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR"
-						timeZone="America/Sao_Paulo" />
-				</h:outputText>
-
-
-				<p:outputLabel for="funcionarioID" value="Funcionario: " />
-				<p:selectOneMenu id="funcionarioID"
-					value="#{vendaBean.venda.funcionario}"
-					converter="omnifaces.SelectItemsConverter" filter="true"
-					filterMatchMode="contains" required="true"
-					requiredMessage="O campo 'Cliente' é obrigatorio">
-					<f:selectItem noSelectionOption="true"
-						itemLabel="Selecione um Funcionario" />
-					<f:selectItems value="#{vendaBean.funcionarios}" var="funcionario"
-						itemValue="#{funcionario}"
-						itemLabel="#{funcionario.pessoa.nome} - #{funcionario.pessoa.cpf}" />
-				</p:selectOneMenu>
-
-				<p:outputLabel for="clienteID" value="Cliente: " />
-				<p:selectOneMenu id="clienteID" value="#{vendaBean.venda.cliente}"
-					converter="omnifaces.SelectItemsConverter" filter="true"
-					filterMatchMode="contains" required="true"
-					requiredMessage="O campo 'Cliente' é obrigatorio">
-					<f:selectItem noSelectionOption="true"
-						itemLabel="Selecione um Cliente" />
-					<f:selectItems value="#{vendaBean.clientes}" var="cliente"
-						itemValue="#{cliente}"
-						itemLabel="#{cliente.pessoa.nome} - #{cliente.pessoa.cpf}" />
-				</p:selectOneMenu>
-
-
-			</h:panelGrid>
-
-			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" actionListener="#{vendaBean.salvar}"
-					update=":mensagem :formulario:tabelaProduto :formulario:tabelaCompra :formulario:painelFinalizacao"
-					oncomplete="PF('dialogo').hide();" />
-				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-
-			</h:panelGrid>
+				</h:panelGrid>
+			</p:panel>
 		</h:form>
-	</p:dialog>
 
 
-</h:body>
-</html>
+		<p:dialog header="Finalizar Venda" widgetVar="dialogo"
+			resizable="false" modal="true">
+			<h:form id="formularioFinalizar">
+				<h:panelGrid id="painelFinalizar" columns="2">
+					<p:outputLabel value="Total" />
+					<h:outputText value="#{vendaBean.venda.precoTotal}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
+
+					<p:outputLabel value="Horario: " />
+					<h:outputText value="#{vendaBean.venda.horario}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+
+
+					<p:outputLabel for="funcionarioID" value="Funcionario: " />
+					<p:selectOneMenu id="funcionarioID"
+						value="#{vendaBean.venda.funcionario}"
+						converter="omnifaces.SelectItemsConverter" filter="true"
+						filterMatchMode="contains" required="true"
+						requiredMessage="O campo 'Cliente' é obrigatorio">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Funcionario" />
+						<f:selectItems value="#{vendaBean.funcionarios}" var="funcionario"
+							itemValue="#{funcionario}"
+							itemLabel="#{funcionario.pessoa.nome} - #{funcionario.pessoa.cpf}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="clienteID" value="Cliente: " />
+					<p:selectOneMenu id="clienteID" value="#{vendaBean.venda.cliente}"
+						converter="omnifaces.SelectItemsConverter" filter="true"
+						filterMatchMode="contains" required="true"
+						requiredMessage="O campo 'Cliente' é obrigatorio">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Cliente" />
+						<f:selectItems value="#{vendaBean.clientes}" var="cliente"
+							itemValue="#{cliente}"
+							itemLabel="#{cliente.pessoa.nome} - #{cliente.pessoa.cpf}" />
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{vendaBean.salvar}"
+						update=":mensagem :formulario:tabelaProduto :formulario:tabelaCompra :formulario:painelFinalizacao"
+						oncomplete="PF('dialogo').hide();" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

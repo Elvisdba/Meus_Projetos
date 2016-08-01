@@ -77,7 +77,7 @@ public class ProdutoBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
 			
 			String json = webTarget.request().get(String.class);
 			
@@ -107,7 +107,7 @@ public class ProdutoBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
 			
 			String json = webTarget.request().get(String.class);
 			
@@ -139,7 +139,7 @@ public class ProdutoBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
 			
 			Gson gson = new Gson();
 			String pessoaJson = gson.toJson(produto);
@@ -183,7 +183,7 @@ public class ProdutoBean implements Serializable {
 
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", produto.getCodigo());
 			
 			webTargetExcluir.request().delete();

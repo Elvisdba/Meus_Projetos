@@ -74,7 +74,7 @@ public class UsuarioBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
 
 			String json = webTarget.request().get(String.class);
 
@@ -95,7 +95,7 @@ public class UsuarioBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
 
 			String json = webTarget.request().get(String.class);
 
@@ -118,7 +118,7 @@ public class UsuarioBean implements Serializable {
 		try {
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
 
 			Gson gson = new Gson();
 			String usuarioJson = gson.toJson(usuario);
@@ -148,7 +148,7 @@ public class UsuarioBean implements Serializable {
 			usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
 
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", usuario.getCodigo());
 
 			webTargetExcluir.request().delete();

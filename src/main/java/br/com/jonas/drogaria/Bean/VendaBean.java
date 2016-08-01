@@ -107,7 +107,7 @@ public class VendaBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8081/Drogaria/rest/produto");
+			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
 
 			String json = webTarget.request().get(String.class);
 

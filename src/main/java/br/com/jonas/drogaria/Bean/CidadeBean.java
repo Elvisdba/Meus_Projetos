@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.Cidade;
 import br.com.jonas.drogaria.domain.Estado;
+import br.com.jonas.drogaria.util.Constants;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -74,7 +75,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target(Constants.URL + "/cidade");
 			
 			// dentro do get vai tipo do retorno
 			String json = webTarget.request().get(String.class);
@@ -101,8 +102,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
-			
+			WebTarget webTarget = client.target(Constants.URL + "/cidade");
 			String json = webTarget.request().get(String.class);
 			
 			Gson gson = new Gson();
@@ -126,7 +126,7 @@ public class CidadeBean implements Serializable {
 			
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target(Constants.URL + "/cidade");
 			
 			Gson gson = new Gson();
 			String cidadeJson = gson.toJson(cidade);
@@ -160,7 +160,7 @@ public class CidadeBean implements Serializable {
 
 			//usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/cidade");
+			WebTarget webTarget = client.target(Constants.URL + "/cidade");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", cidade.getCodigo());
 			
 			//requisicao para deletar

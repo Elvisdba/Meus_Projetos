@@ -18,3 +18,8 @@
 .divCabecalho{
 	padding-bottom: 5px;
 }
+
+/*tamando da font*/
+.ui-widget, .ui-widget .ui-widget {
+       font-size: 100% !important;
+}

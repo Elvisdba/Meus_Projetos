@@ -28,6 +28,7 @@ import br.com.jonas.drogaria.domain.Funcionario;
 import br.com.jonas.drogaria.domain.ItemVenda;
 import br.com.jonas.drogaria.domain.Produto;
 import br.com.jonas.drogaria.domain.Venda;
+import br.com.jonas.drogaria.util.Constants;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -107,8 +108,8 @@ public class VendaBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
-
+			WebTarget webTarget = client.target(Constants.URL + "/produto");
+			
 			String json = webTarget.request().get(String.class);
 
 			Gson gson = new Gson();

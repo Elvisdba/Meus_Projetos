@@ -1,6 +1,5 @@
 package br.com.jonas.drogaria.Bean;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.Arrays;
@@ -11,8 +10,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.swing.ImageIcon;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -206,46 +205,50 @@ public class ProdutoBean implements Serializable {
 
 	public void imprimir() {
 
-		
 		try {
-			//idFormulario:idComponente
+			// idFormulario:idComponente
 			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagem:tabela");
 			Map<String, Object> filtros = tabela.getFilters();
-			
-			String produtoDescricao =  (String) filtros.get("descricao");
-			String fabricanteDescricao =  (String) filtros.get("fabricante.decricao");
-			
+
+			String produtoDescricao = (String) filtros.get("descricao");
+			String fabricanteDescricao = (String) filtros.get("fabricante.decricao");
+
 			String caminho = Faces.getRealPath("/reports/produtos.jasper");
 			Map<String, Object> parametros = new HashMap<>();
+
+			String imagePath = FacesContext.getCurrentInstance().getExternalContext()
+					.getRealPath("/resources/images/drugstore.png");
 			
 			
+			parametros.put("LOGO", imagePath);
 			
 			if (produtoDescricao == null) {
 				parametros.put("Produto_descricao", "%%");
-			}else{
-				//parametros no jasper.jrxml
+			} else {
+				// parametros no jasper.jrxml
 				parametros.put("Produto_descricao", "%" + produtoDescricao + "%");
 			}
-			
+
 			if (fabricanteDescricao == null) {
 				parametros.put("Fabricante_descricao", "%%");
-			}else{
+			} else {
 				parametros.put("Fabricante_descricao", "%" + fabricanteDescricao + "%");
 			}
-			
-			
-			
-			
-			
+
 			Connection conexao = HibernateUtil.getConexao();
 
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
+					
 			JasperPrintManager.printReport(relatorio, true);
 			
+			
+			
+			
+
 		} catch (JRException e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar relatorio");
 			e.printStackTrace();
-		}
+		} 
 
 	}
 

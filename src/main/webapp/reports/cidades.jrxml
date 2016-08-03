@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-08-02T22:15:30 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cidades" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c03cd48d-1836-4ef0-b514-99d1e0a96326">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="YERyb2dhcmlhYC5gQ2lkYWRlYCAsMTUsMTUsOGFmOTg5ZGEtMDI3My00ODRmLWEwOGQtNmY4MmRh&#xA;OGE2NTllO2BEcm9nYXJpYWAuYEVzdGFkb2AgLDE3NywxNiwxZTQ5ODNhNS1kZmE3LTRmM2UtOTI4&#xA;MS1mZmQxMDA1ZWFmMjY7"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria Data Adapter"/>
+	<parameter name="NOME_CIDADE" class="java.lang.String"/>
+	<parameter name="ESTADO_NOME" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT `Drogaria`.`Cidade`.nome AS cnome,
+	`Drogaria`.`Estado`.nome AS enome,
+	`Drogaria`.`Estado`.sigla
+FROM `Drogaria`.`Cidade`
+	INNER JOIN `Drogaria`.`Estado` ON 
+	 `Drogaria`.`Cidade`.estado_codigo = `Drogaria`.`Estado`.codigo 
+WHERE 
+	 `Drogaria`.`Cidade`.nome LIKE $P{NOME_CIDADE} 
+	 AND `Drogaria`.`Estado`.nome LIKE $P{ESTADO_NOME} 
+ORDER BY `Drogaria`.`Estado`.sigla ASC,
+	`Drogaria`.`Estado`.nome ASC,
+	`Drogaria`.`Cidade`.nome ASC]]>
+	</queryString>
+	<field name="cnome" class="java.lang.String"/>
+	<field name="enome" class="java.lang.String"/>
+	<field name="sigla" class="java.lang.String"/>
+	<title>
+		<band height="62" splitType="Stretch">
+			<image hAlign="Center">
+				<reportElement x="0" y="12" width="545" height="50" uuid="defafc7a-8c44-431f-8a4d-632a1758ab5d"/>
+				<imageExpression><![CDATA["src/main/webapp/resources/images/drugstore.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="545" height="30" uuid="e6e895a6-2fb9-43a1-9bcf-90fcc8b629e5"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Relatorio de Cidades]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="2cf199d6-3a8c-4e38-bc32-d10f0b9f9571"/>
+				<text><![CDATA[Cidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="30" uuid="9c36a14d-3fea-4f7a-be8d-31780debf67c"/>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="30" uuid="800c51fa-6c76-4618-bea2-1c6b079a8b45"/>
+				<text><![CDATA[sigla]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="039a90be-e52c-465e-9b8e-e3c7c4db9f47"/>
+				<textFieldExpression><![CDATA[$F{cnome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="30" uuid="241acac3-481e-44a7-a0ed-936f3a50d0d7"/>
+				<textFieldExpression><![CDATA[$F{enome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="30" uuid="a0f85098-b68b-48fc-b8ce-f43738fd2b5d"/>
+				<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="545" height="30" uuid="427be073-ec5a-4c14-88d1-d5ce460d9372"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rua Boquirão numero 60, Sagrada Familia, Gravatai, RS]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

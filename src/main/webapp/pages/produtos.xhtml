@@ -17,9 +17,13 @@
 					rows="10" paginatorPosition="bottom">
 
 					<f:facet name="footer">
-						<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						<p:commandButton value="Novo" icon="ui-icon-plus"
+							oncomplete="PF('dialogo').show();"
 							actionListener="#{produtoBean.novo}"
 							update=":formCadastro:panelGridCadastro">
+
+							<p:commandButton value="Imprimir" icon="ui-icon-print"
+								actionListener="#{produtoBean.imprimir()}" />
 
 							<!-- reset do ajax -->
 							<f:actionListener

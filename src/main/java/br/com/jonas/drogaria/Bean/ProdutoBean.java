@@ -1,8 +1,11 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,12 +16,16 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
+import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.Fabricante;
 import br.com.jonas.drogaria.domain.Produto;
+import br.com.jonas.drogaria.util.HibernateUtil;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -200,6 +207,21 @@ public class ProdutoBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void imprimir() {
+		
+		try {
+			String caminho = Faces.getRealPath("/reports/produtos.jasper");
+			Map<String, Object> parametros = new HashMap<>();
+			Connection conexao = HibernateUtil.getConexao();
+			
+			JasperFillManager.fillReport(caminho, parametros, conexao);
+		} catch (JRException e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar gerar relatorio");
+			e.printStackTrace();
+		}
+		
 	}
 
 	

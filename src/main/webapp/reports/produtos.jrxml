@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-08-02T21:50:10 -->
+<!-- 2016-08-03T00:05:30 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="produtos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dbf09024-7aad-4247-9fb2-b20b5ebb75e7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria Data Adapter"/>
@@ -28,8 +28,8 @@ ORDER BY `Drogaria`.`Produto`.descricao ASC,
 	<field name="fdescricao" class="java.lang.String"/>
 	<title>
 		<band height="50" splitType="Stretch">
-			<image>
-				<reportElement x="190" y="0" width="170" height="50" uuid="712737bb-2ead-4e11-abcf-1fd494df00bb"/>
+			<image hAlign="Center">
+				<reportElement x="0" y="0" width="560" height="50" uuid="3cc858e5-8bbc-4fbe-8bcc-e217b5687b00"/>
 				<imageExpression><![CDATA["src/main/webapp/resources/images/drugstore.png"]]></imageExpression>
 			</image>
 		</band>

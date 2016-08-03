@@ -23,7 +23,7 @@
 							update=":formCadastro:panelGridCadastro">
 
 							<p:commandButton value="Imprimir" icon="ui-icon-print"
-								actionListener="#{produtoBean.imprimir()}" />
+								actionListener="#{produtoBean.imprimir}" />
 
 							<!-- reset do ajax -->
 							<f:actionListener
@@ -36,13 +36,11 @@
 						<h:outputText value="#{produto.descricao}" />
 					</p:column>
 
-					<p:column headerText="Quantidade" filterBy="#{produto.quantidade}"
-						sortBy="#{produto.quantidade}">
+					<p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
 						<h:outputText value="#{produto.quantidade}" />
 					</p:column>
 
-					<p:column headerText="Preco" filterBy="#{produto.preco}"
-						sortBy="#{produto.preco}">
+					<p:column headerText="Preco" sortBy="#{produto.preco}">
 						<h:outputText value="#{produto.preco}">
 							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 						</h:outputText>

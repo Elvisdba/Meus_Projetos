@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-08-02T21:24:03 -->
+<!-- 2016-08-02T21:50:10 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="produtos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dbf09024-7aad-4247-9fb2-b20b5ebb75e7">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria Data Adapter"/>
+	<parameter name="Produto_descricao" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="Fabricante_descricao" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT `Drogaria`.`Produto`.descricao as pdescricao,
+		<![CDATA[SELECT `Drogaria`.`Produto`.descricao AS pdescricao,
 	`Drogaria`.`Produto`.preco,
 	`Drogaria`.`Produto`.quantidade,
-	`Drogaria`.`Fabricante`.descricao as fdescricao
+	`Drogaria`.`Fabricante`.descricao AS fdescricao
 FROM `Drogaria`.`Produto`
 	INNER JOIN `Drogaria`.`Fabricante` ON 
 	 `Drogaria`.`Produto`.fabricante_codigo = `Drogaria`.`Fabricante`.codigo 
+WHERE 
+	 `Drogaria`.`Produto`.descricao LIKE $P{Produto_descricao} 
+	 AND `Drogaria`.`Fabricante`.descricao LIKE $P{Fabricante_descricao} 
 ORDER BY `Drogaria`.`Produto`.descricao ASC,
 	`Drogaria`.`Fabricante`.descricao ASC]]>
 	</queryString>

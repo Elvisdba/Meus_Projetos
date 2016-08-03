@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2016-08-02T21:24:03 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="produtos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dbf09024-7aad-4247-9fb2-b20b5ebb75e7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria Data Adapter"/>
+	<queryString>
+		<![CDATA[SELECT `Drogaria`.`Produto`.descricao as pdescricao,
+	`Drogaria`.`Produto`.preco,
+	`Drogaria`.`Produto`.quantidade,
+	`Drogaria`.`Fabricante`.descricao as fdescricao
+FROM `Drogaria`.`Produto`
+	INNER JOIN `Drogaria`.`Fabricante` ON 
+	 `Drogaria`.`Produto`.fabricante_codigo = `Drogaria`.`Fabricante`.codigo 
+ORDER BY `Drogaria`.`Produto`.descricao ASC,
+	`Drogaria`.`Fabricante`.descricao ASC]]>
+	</queryString>
+	<field name="pdescricao" class="java.lang.String"/>
+	<field name="preco" class="java.math.BigDecimal"/>
+	<field name="quantidade" class="java.lang.Integer"/>
+	<field name="fdescricao" class="java.lang.String"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<image>
+				<reportElement x="190" y="0" width="170" height="50" uuid="712737bb-2ead-4e11-abcf-1fd494df00bb"/>
+				<imageExpression><![CDATA["src/main/webapp/resources/images/drugstore.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="560" height="30" uuid="021d3ba0-58e2-4ce7-998c-e3c759ea38c9"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Relatorio de Produtos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="95064132-02d1-4772-a3a5-83817fc6e5db"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição do Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="30" uuid="1b1c5106-97cc-4483-a40b-32943e264914"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Preco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="30" uuid="b7b7db99-b767-425b-b553-4368ca41e352"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="100" height="30" uuid="e96b1bfc-226f-4780-a849-84a5cd25a3eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fabricante]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="c7a1b5f6-4166-48e9-9c66-3a0aef9f6a13"/>
+				<textFieldExpression><![CDATA[$F{pdescricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="100" y="0" width="100" height="30" uuid="b549da88-6eda-4dc9-a82d-762aed039543"/>
+				<textFieldExpression><![CDATA[$F{preco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="30" uuid="a81161fa-d468-4323-9032-520311374525"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="30" uuid="c69e381b-625d-41da-9d68-3345784aab42"/>
+				<textFieldExpression><![CDATA[$F{fdescricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="560" height="30" uuid="40e00204-e34c-445c-855a-c9d2d2e1aaa5"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rua Boqueirão numero 60, Sagrada Familia, Gravatai, RS]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

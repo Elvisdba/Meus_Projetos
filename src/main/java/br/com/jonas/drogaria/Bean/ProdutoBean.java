@@ -216,9 +216,7 @@ public class ProdutoBean implements Serializable {
 			String caminho = Faces.getRealPath("/reports/produtos.jasper");
 			Map<String, Object> parametros = new HashMap<>();
 
-			String imagePath = FacesContext.getCurrentInstance().getExternalContext()
-					.getRealPath("/resources/images/drugstore.png");
-			
+			String imagePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/images/drugstore.png");
 			
 			parametros.put("LOGO", imagePath);
 			

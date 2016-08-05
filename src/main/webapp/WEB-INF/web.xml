@@ -5,6 +5,11 @@
 	<!-- Nome da Aplicação -->
 	<display-name>Drogaria</display-name>
 
+	<!-- Pagina Inicial -->
+	<welcome-file-list>
+		<welcome-file>pages/principal.xhtml</welcome-file>
+	</welcome-file-list>
+
 
 
 	<!-- Estagio do Projeto -->

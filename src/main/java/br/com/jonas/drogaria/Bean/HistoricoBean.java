@@ -1,18 +1,21 @@
 package br.com.jonas.drogaria.Bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
 import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
 
+import br.com.jonas.drogaria.domain.Historico;
 import br.com.jonas.drogaria.domain.Produto;
 import br.com.jonas.drogaria.service.ProdutoService;
 import br.com.jonas.drogaria.util.Constants;
@@ -21,7 +24,7 @@ import br.com.jonas.drogaria.util.Constants;
 @ManagedBean
 @ViewScoped
 public class HistoricoBean implements Serializable {
-	
+	private Historico historico;
 	private Produto produto;
 	private Boolean exibiPaineDados;
 
@@ -32,6 +35,16 @@ public class HistoricoBean implements Serializable {
 
 	public void setExibiPaineDados(Boolean exibiPaineDados) {
 		this.exibiPaineDados = exibiPaineDados;
+	}
+
+	
+	
+	public Historico getHistorico() {
+		return historico;
+	}
+
+	public void setHistorico(Historico historico) {
+		this.historico = historico;
 	}
 
 	public Produto getProduto() {
@@ -45,7 +58,9 @@ public class HistoricoBean implements Serializable {
 	@PostConstruct
 	public void novo() {
 		produto = new Produto();
+		historico = new Historico();
 		exibiPaineDados = false;
+		
 		
 	}
 	
@@ -74,6 +89,30 @@ public class HistoricoBean implements Serializable {
 			
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao tentar buscar o Produto");
+			e.printStackTrace();
+		}
+	}
+	
+	public void salvar(){
+		
+		try {
+			historico.setHorario(new Date());
+			historico.setProduto(produto);
+			
+			Client client = ClientBuilder.newClient();
+			WebTarget webTarget = client.target(Constants.URL + "/historico");
+			
+			Gson gson = new Gson();
+			String historicoJson = gson.toJson(historico);
+
+			// salvar
+			// post so aceita Entity
+			webTarget.request().post(Entity.json(historicoJson));
+			
+			Messages.addGlobalInfo("Descricao salva com sucesso");
+			
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao tentar salvar o Historico");
 			e.printStackTrace();
 		}
 	}

@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.Historico;
 import br.com.jonas.drogaria.domain.Produto;
-import br.com.jonas.drogaria.service.ProdutoService;
 import br.com.jonas.drogaria.util.Constants;
 
 @SuppressWarnings("serial")

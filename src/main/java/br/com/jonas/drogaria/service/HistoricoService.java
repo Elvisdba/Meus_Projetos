@@ -5,7 +5,7 @@ import javax.ws.rs.Path;
 
 import com.google.gson.Gson;
 
-import br.com.jonas.drogaria.dao.HistoricoDao;
+import br.com.jonas.drogaria.dao.HistoricoDAO;
 import br.com.jonas.drogaria.domain.Historico;
 
 @Path("historico")
@@ -19,7 +19,7 @@ public class HistoricoService {
 		Gson gson = new Gson();
 		Historico historico = gson.fromJson(json, Historico.class);
 
-		HistoricoDao historicoDAO = new HistoricoDao();
+		HistoricoDAO historicoDAO = new HistoricoDAO();
 		historico = historicoDAO.merge(historico);
 
 		// converte ojbeto em Json

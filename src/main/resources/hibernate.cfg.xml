@@ -30,21 +30,24 @@
 		<property name="show_sql">true</property>
 
 		<!-- Cria as tabelas do banco de dados -->
-		<property name="hbm2ddl.auto">validate</property>
-		
-		
+		<!-- (update, create, validate) Para criar novas tabelas e nao apagar as 
+			existentes = update -->
+		<property name="hbm2ddl.auto">update</property>
+
+
 		<!-- Classes a serem mapeadas (tem que ter se nao nao cria no banco) -->
-		<mapping class="br.com.jonas.drogaria.domain.Estado"/>
-		<mapping class="br.com.jonas.drogaria.domain.Cidade"/>
-		<mapping class="br.com.jonas.drogaria.domain.Fabricante"/>
-		<mapping class="br.com.jonas.drogaria.domain.Produto"/>
-		<mapping class="br.com.jonas.drogaria.domain.Cliente"/>
-		<mapping class="br.com.jonas.drogaria.domain.Pessoa"/>
-		<mapping class="br.com.jonas.drogaria.domain.Usuario"/>
-		<mapping class="br.com.jonas.drogaria.domain.Funcionario"/>
-		<mapping class="br.com.jonas.drogaria.domain.Venda"/>
-		<mapping class="br.com.jonas.drogaria.domain.ItemVenda"/>
-		
+		<mapping class="br.com.jonas.drogaria.domain.Estado" />
+		<mapping class="br.com.jonas.drogaria.domain.Cidade" />
+		<mapping class="br.com.jonas.drogaria.domain.Fabricante" />
+		<mapping class="br.com.jonas.drogaria.domain.Produto" />
+		<mapping class="br.com.jonas.drogaria.domain.Cliente" />
+		<mapping class="br.com.jonas.drogaria.domain.Pessoa" />
+		<mapping class="br.com.jonas.drogaria.domain.Usuario" />
+		<mapping class="br.com.jonas.drogaria.domain.Funcionario" />
+		<mapping class="br.com.jonas.drogaria.domain.Venda" />
+		<mapping class="br.com.jonas.drogaria.domain.ItemVenda" />
+		<mapping class="br.com.jonas.drogaria.domain.Historico" />
+
 
 	</session-factory>
 

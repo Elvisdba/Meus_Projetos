@@ -20,7 +20,7 @@ import br.com.jonas.drogaria.util.Constants;
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
-public class ProdutoBean2 implements Serializable {
+public class HistoricoBean implements Serializable {
 	
 	private Produto produto;
 	private Boolean exibiPaineDados;

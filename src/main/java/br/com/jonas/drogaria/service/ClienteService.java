@@ -3,7 +3,6 @@
  */
 package br.com.jonas.drogaria.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -14,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import br.com.jonas.drogaria.dao.ClienteDAO;
 import br.com.jonas.drogaria.domain.Cliente;

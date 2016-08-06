@@ -15,7 +15,6 @@ import javax.ws.rs.client.WebTarget;
 import org.omnifaces.util.Messages;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import br.com.jonas.drogaria.dao.ClienteDAO;
 import br.com.jonas.drogaria.dao.PessoaDAO;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.omnifaces.util.Messages;
 
 import br.com.jonas.drogaria.domain.ItemVenda;
 import br.com.jonas.drogaria.domain.Produto;
@@ -29,9 +30,18 @@ public class VendaDAO extends GenericDAO<Venda> {
 				
 				
 				Produto produto = itemVenda.getProduto();
-				produto.setQuantidade(new Short((produto.getQuantidade() - itemVenda.getQuantidade()) + ""));
 				
-				sessao.update(produto);
+				int quantidade = produto.getQuantidade() - itemVenda.getQuantidade();
+				
+				if(quantidade >= 0){
+					produto.setQuantidade(new Short((produto.getQuantidade() - itemVenda.getQuantidade()) + ""));
+					
+					sessao.update(produto);
+				}else{
+					//joga este erro para a camada Bean
+					throw new RuntimeException("Quantidade insuficiente em estoque");
+				}
+				
 			}
 			
 			transacao.commit();

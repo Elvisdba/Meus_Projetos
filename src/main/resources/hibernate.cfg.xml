@@ -47,6 +47,9 @@
 		<mapping class="br.com.jonas.drogaria.domain.Venda" />
 		<mapping class="br.com.jonas.drogaria.domain.ItemVenda" />
 		<mapping class="br.com.jonas.drogaria.domain.Historico" />
+		<mapping class="br.com.jonas.drogaria.domain.Caixa" />
+		<mapping class="br.com.jonas.drogaria.domain.Movimentacao" />
+		
 
 
 	</session-factory>

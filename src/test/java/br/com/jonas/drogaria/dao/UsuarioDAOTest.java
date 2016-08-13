@@ -2,6 +2,7 @@ package br.com.jonas.drogaria.dao;
 
 import java.util.List;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -10,28 +11,44 @@ import br.com.jonas.drogaria.domain.Usuario;
 
 public class UsuarioDAOTest {
 	
+	
+	@Test
+	@Ignore
+	public void autenticar(){
+		String cpf = "838.511.350-91";
+		String senha = "250987";
+		
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Usuario usuario = usuarioDAO.autenticar(senha, cpf);
+		
+		System.out.println("Usuario Encontrado: " + usuario.getPessoa().getNome());
+		
+	}
+	
 	@Test
 	@Ignore
 	public void salvar() {
-		Long codigoPessoa = 10L;
+		Long codigoPessoa = 14L;
 		PessoaDAO pessoaDAO = new PessoaDAO();
 		Pessoa pessoa = pessoaDAO.buscarPorcodigo(codigoPessoa);
 		
-		if (pessoa == null) {
-			System.out.println("Pessoa nao encontrada");
-		} else {
+		
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			Usuario usuario = new Usuario();
 			
 			usuario.setAtivo(true);
 			usuario.setPessoa(pessoa);
-			usuario.setSenha("250987");
-			usuario.setTipo('B');
+			usuario.setSenhaSemCriptografia("250987");
+			
+			SimpleHash simpleHash = new SimpleHash("md5",usuario.getSenhaSemCriptografia());
+			
+			usuario.setSenha(simpleHash.toHex());
+			usuario.setTipo('C');
 			
 			usuarioDAO.salvar(usuario);
 			System.out.println("Usuario salvo com sucesso");
 		}
-	}
+
 	
 	@Test
 	@Ignore

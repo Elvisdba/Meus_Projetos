@@ -6,12 +6,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" 
-	template="/templates/modelo.xhtml">
-	
+	xmlns:p="http://primefaces.org/ui" template="/templates/modelo.xhtml">
+
 	<ui:define name="conteudo">
-	
-	
+
+
 		<h:form id="formListagem">
 			<p:panel header="Estados - Listagem">
 				<p:dataTable id="tabela" emptyMessage="Nao a registros cadastrados"
@@ -102,7 +101,10 @@
 					<p:outputLabel for="siglaID" value="Sigla do Estado: " />
 					<p:inputText id="siglaID" maxlength="2" size="10" required="true"
 						requiredMessage="O campo 'sigla' é obrigatorio"
-						value="#{estadoBean.estado.sigla}" />
+						value="#{estadoBean.estado.sigla}" converter="upperCaseConverter">
+						<p:ajax event="blur" update="@this" />
+					</p:inputText>
+					
 				</h:panelGrid>
 
 				<!-- Botoes -->

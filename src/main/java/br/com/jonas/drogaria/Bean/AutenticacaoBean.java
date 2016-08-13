@@ -18,6 +18,17 @@ import br.com.jonas.drogaria.domain.Usuario;
 public class AutenticacaoBean {
 	
 	private Usuario usuario;
+	private Usuario usuarioLogado;
+	
+	
+
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -38,7 +49,7 @@ public class AutenticacaoBean {
 		try {
 			
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
-		    Usuario usuarioLogado = usuarioDAO.autenticar(usuario.getSenha(), usuario.getPessoa().getCpf());
+		    usuarioLogado = usuarioDAO.autenticar(usuario.getSenha(), usuario.getPessoa().getCpf());
 		
 		    
 		    if (usuarioLogado == null) {

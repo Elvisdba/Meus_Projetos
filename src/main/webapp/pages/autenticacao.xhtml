@@ -20,7 +20,7 @@
 		<h:form>
 			<h:panelGrid columns="2">
 				<p:outputLabel for="cpf" value="CPF:" />
-				<p:inputMask id="cpf" mask="999.999.999.99" size="20"
+				<p:inputMask id="cpf" mask="999.999.999-99" size="20"
 					required="true" requiredMessage="O Campo CPF é obrigatório"
 					value="#{autenticacaoBean.usuario.pessoa.cpf}" />
 
@@ -32,7 +32,7 @@
 
 			<h:panelGrid columns="2">
 				<p:commandButton value="Entrar" update="mensagem"
-					actionListener="#{autenticacaoBean.autenticar()}" />
+					actionListener="#{autenticacaoBean.autenticar}" />
 				<p:commandButton value="Sair" oncomplete="PF('dialogo').hide();" />
 
 			</h:panelGrid>

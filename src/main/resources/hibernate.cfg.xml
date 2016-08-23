@@ -9,10 +9,16 @@
 	<session-factory>
 
 		<!-- Configurações de Conexão com o Banco de Dados -->
-		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<!--  <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="connection.url">jdbc:mysql://localhost:3306/Drogaria</property>
 		<property name="connection.username">root</property>
-		<property name="connection.password">czc2v6</property>
+		<property name="connection.password">czc2v6</property> -->
+		
+		<!-- jelastic -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://node104034-drogariajc.jelasticlw.com.br/Drogaria</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">ZBEhpt11655</property>
 
 		<!-- Pool de Conexões -->
 		<property name="connection.pool_size">1</property>

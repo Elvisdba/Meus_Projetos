@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<f:metadata>
+	<f:viewParam name="codigo" value="#{produtoBean2.codigoProduto}"
+		required="true"
+		requiredMessage="O campo codigo do produto é obrigatorio"/>
+	<f:viewAction action="#{produtoBean2.carregarEdicao()}" />
+</f:metadata>
+
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<title>Produtos Edição</title>
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+	<h:form id="formCadastro">
+		<p:panel header="Produtos - Edição">
+			<h:panelGrid id="panelGridCadastro" columns="2">
+
+				<p:outputLabel for="fabricanteID" value="Fabricante: " />
+				<p:selectOneMenu id="fabricanteID" filter="true"
+					value="#{produtoBean2.produto.fabricante}"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="O campo 'Fabricante' é obrigatorio">
+
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um produto" />
+
+					<f:selectItems value="#{produtoBean2.fabricantes}" var="fabricante"
+						itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="descricaoID" value="Descricao: " />
+				<p:inputText id="descricaoID" maxlength="50" size="30"
+					required="true" requiredMessage="O campo 'Descricao' é obrigatorio"
+					value="#{produtoBean2.produto.descricao}" />
+
+				<p:outputLabel for="quantidadeID" value="Quantidade: " />
+				<p:inputText id="quantidadeID" maxlength="5" size="10"
+					required="true"
+					requiredMessage="O campo 'Quantidade' é obrigatorio"
+					converterMessage="O valor informado no campo 'Quantidade' é invalido"
+					value="#{produtoBean2.produto.quantidade}"
+					validatorMessage="Informe um valor entre 0 e 1000 no campo 'Quantidade'">
+					<f:validateLongRange minimum="0" maximum="1000" />
+				</p:inputText>
+
+				<p:outputLabel for="precoID" value="Preco:" />
+				<p:inputText id="precoID" maxlength="7" size="10" required="true"
+					requiredMessage="O campo 'Preco' é obrigatorio"
+					converterMessage="O valor informado no campo 'Preco' é invalido"
+					value="#{produtoBean2.produto.preco}"
+					validatorMessage="Informe um valor entre 0.01 e 9999.99 no campo 'Preco'">
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</p:inputText>
+
+
+			</h:panelGrid>
+
+			<!-- Botoes -->
+			<h:panelGrid columns="2">
+				<p:commandButton value="Editar" update=":mensagem" />
+				<p:commandButton value="Voltar" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+
+
+
+</h:body>
+</html>

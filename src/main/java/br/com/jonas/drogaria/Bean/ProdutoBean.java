@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.Fabricante;
 import br.com.jonas.drogaria.domain.Produto;
+import br.com.jonas.drogaria.util.Constants;
 import br.com.jonas.drogaria.util.HibernateUtil;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -87,7 +88,7 @@ public class ProdutoBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/produto");
+			WebTarget webTarget = client.target(Constants.URL + "/produto");
 
 			String json = webTarget.request().get(String.class);
 

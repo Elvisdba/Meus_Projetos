@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+
+		<h:form>
+			<p:schedule value="#{caixaBean.caixas}">
+				<p:ajax event="dateSelect" listener="#{caixaBean.novo}"
+					oncomplete="PF('dialogo').show();"
+					update=":formularioCadastro:painel" />
+			</p:schedule>
+		</h:form>
+
+		<p:dialog header="Caixa" draggable="false" modal="true"
+			resizable="false" closable="true" widgetVar="dialogo">
+
+			<h:form id="formularioCadastro">
+				<h:panelGrid id="painel" columns="2">
+					<p:outputLabel value="Data de Abertura: " />
+					<p:inputText value="#{caixaBean.caixa.dataAbertura}">
+						<f:convertDateTime locale="pt_BR" />
+					</p:inputText>
+
+					<p:outputLabel value="Valor de Abertura: " />
+					<p:inputText value="#{caixaBean.caixa.valorAbertura}">
+						<f:convertNumber locale="pt_BR" />
+					</p:inputText>
+
+					<p:outputLabel value="Funcionario de Abertura: " />
+					<p:selectOneMenu value="#{caixaBean.caixa.funcionario}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Funcionario" />
+						<f:selectItems value="#{caixaBean.funcionarios}" var="funcionario"
+							itemValue="#{funcionario}" itemLabel="#{funcionario.pessoa.nome}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</h:form>
+
+			<p:panelGrid columns="1">
+				<p:commandButton value="Salvar" oncomplete="PF('dialogo').hide();"
+					actionListener="#{caixaBean.salvar}" update=":mensagem" />
+			</p:panelGrid>
+		</p:dialog>
+
+
+	</ui:define>
+
+
+</ui:composition>

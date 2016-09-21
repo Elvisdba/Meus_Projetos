@@ -28,7 +28,7 @@ public class UsuarioDAOTest {
 	@Test
 	@Ignore
 	public void salvar() {
-		Long codigoPessoa = 14L;
+		Long codigoPessoa = 7L;
 		PessoaDAO pessoaDAO = new PessoaDAO();
 		Pessoa pessoa = pessoaDAO.buscarPorcodigo(codigoPessoa);
 		

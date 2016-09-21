@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import br.com.jonas.drogaria.domain.Pessoa;
 import br.com.jonas.drogaria.domain.Usuario;
+import br.com.jonas.drogaria.util.Constants;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -74,7 +75,7 @@ public class UsuarioBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target(Constants.URL + "/usuario");
 
 			String json = webTarget.request().get(String.class);
 
@@ -95,7 +96,7 @@ public class UsuarioBean implements Serializable {
 
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target(Constants.URL + "/usuario");
 
 			String json = webTarget.request().get(String.class);
 
@@ -118,7 +119,7 @@ public class UsuarioBean implements Serializable {
 		try {
 			// usando service
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target(Constants.URL + "/usuario");
 
 			Gson gson = new Gson();
 			String usuarioJson = gson.toJson(usuario);
@@ -148,7 +149,7 @@ public class UsuarioBean implements Serializable {
 			usuario = (Usuario) evento.getComponent().getAttributes().get("usuarioSelecionado");
 
 			Client client = ClientBuilder.newClient();
-			WebTarget webTarget = client.target("http://localhost:8080/Drogaria/rest/usuario");
+			WebTarget webTarget = client.target(Constants.URL + "/usuario");
 			WebTarget webTargetExcluir = webTarget.path("{codigo}").resolveTemplate("codigo", usuario.getCodigo());
 
 			webTargetExcluir.request().delete();
